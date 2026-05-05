@@ -60,13 +60,7 @@ export default async function AdminOrdersPage({
                 user: true,
                 items: {
                     include: {
-                        product: {
-                            select: {
-                                id: true,
-                                name: true,
-                                slug: true,
-                            },
-                        },
+                        product: true,
                     },
                 },
             },
@@ -77,9 +71,8 @@ export default async function AdminOrdersPage({
     const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
 
     return (
-        <div className="w-full px-6 py-6">
-            <div className="bg-white p-4 rounded-md shadow-md space-y-4">
-
+        <div className="w-full px-3 py-6">
+            <div className="bg-white p-4 rounded-md shadow-md space-y-3">
                 {/* TOP BAR */}
                 <div className="flex justify-between items-center flex-wrap gap-4">
                     <h1 className="text-2xl font-bold">Orders</h1>

@@ -12,9 +12,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/format";
-import { Eye, EyeOff, Plus, SquarePen } from "lucide-react";
+import { Eye, EyeOff, SquarePen } from "lucide-react";
 import { ProductStatusBadge } from "@/components/common/Badges";
-import AdminSearchBar from "@/components/common/AdminSearchBar";
 
 export default function AdminProductsClient({ products }: { products: any[] }) {
     const [productList, setProductList] = useState(products);
@@ -84,7 +83,7 @@ export default function AdminProductsClient({ products }: { products: any[] }) {
                         </button>
                     )}
 
-                    
+
                 </div>
             </div>
 
@@ -110,6 +109,7 @@ export default function AdminProductsClient({ products }: { products: any[] }) {
                             <TableHead>Product</TableHead>
                             <TableHead>Price</TableHead>
                             <TableHead>Category</TableHead>
+                            <TableHead>Sold</TableHead>
                             <TableHead>Status</TableHead>
                             <TableHead className="text-right">
                                 Actions
@@ -150,6 +150,7 @@ export default function AdminProductsClient({ products }: { products: any[] }) {
 
                                     <TableCell>{formatPrice(product.price)}</TableCell>
                                     <TableCell>{product.category?.name || "-"}</TableCell>
+                                    <TableCell>{product.sold}</TableCell>
                                     <TableCell>
                                         <ProductStatusBadge active={product.isActive} />
                                     </TableCell>

@@ -82,8 +82,8 @@ export default async function AdminUsersPage({
     const totalPages = Math.ceil(totalUsers / PAGE_SIZE);
 
     return (
-        <div className="w-full px-6 py-6">
-            <div className="bg-white p-4 rounded-md shadow-md space-y-4">
+        <div className="w-full px-3 py-6">
+            <div className="bg-white p-4 rounded-md shadow-md space-y-3">
 
                 {/* TOP BAR */}
                 <div className="flex justify-between items-center flex-wrap gap-4">

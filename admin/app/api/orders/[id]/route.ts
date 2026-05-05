@@ -61,6 +61,14 @@ export async function PATCH(
       return await tx.order.update({
         where: { id },
         data: updateData,
+        include: {
+          user: true,
+          items: {
+            include: {
+              product: true,
+            },
+          },
+        },
       });
     });
 

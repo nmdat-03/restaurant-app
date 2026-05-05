@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { MoreHorizontal } from "lucide-react";
-import AdminSearchBar from "@/components/common/AdminSearchBar";
 import ConfirmModal from "@/components/common/ConfirmModal";
 
 type OrderWithUser = Prisma.OrderGetPayload<{
@@ -156,7 +155,7 @@ export default function AdminOrdersClient({
 
                                     <TableCell>
                                         <div className="space-y-1 text-sm">
-                                            {order.items.slice(0, 2).map((item) => (
+                                            {(order.items ?? []).slice(0, 2).map((item) => (
                                                 <p key={item.id}>
                                                     {item.product.name}{" "}
                                                     x
@@ -165,7 +164,7 @@ export default function AdminOrdersClient({
                                             )
                                             )}
 
-                                            {order.items.length > 2 && (
+                                            {(order.items?.length ?? 0) > 2 && (
                                                 <p className="text-xs text-gray-400">
                                                     +{order.items.length - 2}{" "}more
                                                 </p>

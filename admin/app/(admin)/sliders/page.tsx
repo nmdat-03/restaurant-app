@@ -29,18 +29,6 @@ export default async function AdminSlidersPage({
     if (keyword) {
         where.OR = [
             {
-                title: {
-                    contains: keyword,
-                    mode: "insensitive",
-                },
-            },
-            {
-                subtitle: {
-                    contains: keyword,
-                    mode: "insensitive",
-                },
-            },
-            {
                 link: {
                     contains: keyword,
                     mode: "insensitive",
@@ -66,7 +54,7 @@ export default async function AdminSlidersPage({
     const totalPages = Math.ceil(totalSliders / PAGE_SIZE);
 
     return (
-        <div className="w-full px-6 py-6">
+        <div className="w-full px-3 py-6">
             <Suspense
                 key={`${currentPage}-${keyword}`}
                 fallback={<div>Loading...</div>}

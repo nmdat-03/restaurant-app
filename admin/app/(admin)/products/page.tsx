@@ -16,13 +16,12 @@ export default async function AdminProductsPage({
   searchParams,
 }: {
   searchParams: Promise<{
-    page?: string,
-    q?: string,
-    categoryId?: string,
-    status?: string
+    page?: string;
+    q?: string;
+    categoryId?: string;
+    status?: string;
   }>;
 }) {
-
   const user = await getCurrentUser();
 
   if (!user || user.role !== "ADMIN") {
@@ -77,12 +76,35 @@ export default async function AdminProductsPage({
     }),
   ]);
 
+  const soldData = await prisma.orderItem.groupBy({
+    by: ["productId"],
+    where: {
+      productId: {
+        in: products.map((p) => p.id),
+      },
+      order: {
+        orderStatus: "COMPLETED",
+      },
+    },
+    _sum: {
+      quantity: true,
+    },
+  });
+
+  const soldMap = new Map(
+    soldData.map((item) => [item.productId, item._sum.quantity || 0])
+  );
+
+  const productsWithSold = products.map((p) => ({
+    ...p,
+    sold: soldMap.get(p.id) || 0,
+  }));
+
   const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
   return (
-    <div className="w-full px-6 py-6">
-      <div className="bg-white p-4 rounded-md shadow-md space-y-4">
-
+    <div className="w-full px-3 py-6">
+      <div className="bg-white p-4 rounded-md shadow-md space-y-3">
         {/* TOP BAR */}
         <div className="flex justify-between items-center flex-wrap gap-4">
           <h1 className="text-2xl font-bold">Products</h1>
@@ -130,7 +152,7 @@ export default async function AdminProductsPage({
           key={`${currentPage}-${keyword}-${params.categoryId}-${params.status}`}
           fallback={<div>Loading...</div>}
         >
-          <AdminProductsClient products={products} />
+          <AdminProductsClient products={productsWithSold} />
         </Suspense>
 
         {/* PAGINATION */}
