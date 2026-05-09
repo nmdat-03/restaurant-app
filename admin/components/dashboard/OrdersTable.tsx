@@ -148,73 +148,73 @@ export default function OrdersTable({
                                         >
                                             {order.orderStatus ===
                                                 OrderStatus.PENDING && (
-                                                <>
-                                                    <DropdownMenuItem
-                                                        onClick={() =>
-                                                            onAction(
-                                                                order.id,
-                                                                OrderStatus.CONFIRMED
-                                                            )
-                                                        }
-                                                    >
-                                                        Confirm
-                                                    </DropdownMenuItem>
+                                                    <>
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                onAction(
+                                                                    order.id,
+                                                                    OrderStatus.CONFIRMED
+                                                                )
+                                                            }
+                                                        >
+                                                            Confirm
+                                                        </DropdownMenuItem>
 
-                                                    <DropdownMenuItem
-                                                        className="text-red-600"
-                                                        onClick={() =>
-                                                            onAction(
-                                                                order.id,
-                                                                OrderStatus.CANCELLED
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </DropdownMenuItem>
-                                                </>
-                                            )}
+                                                        <DropdownMenuItem
+                                                            className="text-red-600"
+                                                            onClick={() =>
+                                                                onAction(
+                                                                    order.id,
+                                                                    OrderStatus.CANCELLED
+                                                                )
+                                                            }
+                                                        >
+                                                            Cancel
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
 
                                             {order.orderStatus ===
                                                 OrderStatus.CONFIRMED && (
-                                                <>
-                                                    <DropdownMenuItem
-                                                        onClick={() =>
-                                                            onAction(
-                                                                order.id,
-                                                                OrderStatus.SHIPPING
-                                                            )
-                                                        }
-                                                    >
-                                                        Ship
-                                                    </DropdownMenuItem>
+                                                    <>
+                                                        <DropdownMenuItem
+                                                            onClick={() =>
+                                                                onAction(
+                                                                    order.id,
+                                                                    OrderStatus.SHIPPING
+                                                                )
+                                                            }
+                                                        >
+                                                            Ship
+                                                        </DropdownMenuItem>
 
-                                                    <DropdownMenuItem
-                                                        className="text-red-600"
-                                                        onClick={() =>
-                                                            onAction(
-                                                                order.id,
-                                                                OrderStatus.CANCELLED
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </DropdownMenuItem>
-                                                </>
-                                            )}
+                                                        <DropdownMenuItem
+                                                            className="text-red-600"
+                                                            onClick={() =>
+                                                                onAction(
+                                                                    order.id,
+                                                                    OrderStatus.CANCELLED
+                                                                )
+                                                            }
+                                                        >
+                                                            Cancel
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
 
                                             {order.orderStatus ===
                                                 OrderStatus.SHIPPING && (
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        onAction(
-                                                            order.id,
-                                                            OrderStatus.COMPLETED
-                                                        )
-                                                    }
-                                                >
-                                                    Complete
-                                                </DropdownMenuItem>
-                                            )}
+                                                    <DropdownMenuItem
+                                                        onClick={() =>
+                                                            onAction(
+                                                                order.id,
+                                                                OrderStatus.COMPLETED
+                                                            )
+                                                        }
+                                                    >
+                                                        Complete
+                                                    </DropdownMenuItem>
+                                                )}
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>

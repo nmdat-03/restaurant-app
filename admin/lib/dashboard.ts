@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { subDays, startOfDay } from "date-fns";
+import { formatDateKey } from "./format";
 
 /*=============== REVENUE CHART ===============*/
 export async function getRevenueLast7Days() {
@@ -25,7 +26,7 @@ export async function getRevenueLast7Days() {
       });
 
       return {
-        date: date.toISOString(),
+        date: formatDateKey(date),
         revenue: result._sum.total || 0,
       };
     }),
@@ -66,7 +67,7 @@ export async function getOrderStatsLast7Days() {
       ]);
 
       return {
-        date: date.toISOString(),
+        date: formatDateKey(date),
         total,
         completed,
         cancelled,

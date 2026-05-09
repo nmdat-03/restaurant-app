@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
 import OrdersTable from "@/components/dashboard/OrdersTable";
 import Link from "next/link";
-import DashboardCard from "@/components/dashboard/DashboardCard";
-import RevenueChart from "@/components/dashboard/RevenueChart";
+import StatCard from "@/components/reports/StatCard";
+import RevenueChart from "@/components/charts/RevenueChart";
 import { getOrderStatsLast7Days, getRevenueLast7Days, getTopProducts } from "@/lib/dashboard";
 import OrdersChart from "@/components/dashboard/OrdersChart";
 import TopProducts from "@/components/dashboard/TopProducts";
@@ -67,47 +67,61 @@ export default async function AdminDashboardPage() {
 
     const totalRevenue = revenueResult._sum.total || 0;
 
+    const stats = [
+        {
+            title: "Total Users",
+            value: totalUsers,
+            gradient: "from-blue-400 to-blue-600",
+            href: "/users"
+        },
+        {
+            title: "Total Products",
+            value: totalProducts,
+            gradient: "from-orange-400 to-orange-600",
+            href: "/products"
+        },
+        {
+            title: "Total Orders",
+            value: totalOrders,
+            gradient: "from-pink-400 to-pink-600",
+            href: "/orders"
+        },
+        {
+            title: "Total Revenue",
+            value: totalRevenue,
+            isMoney: true,
+            gradient: "from-green-400 to-green-600",
+            href: "/reports/revenue"
+        },
+        {
+            title: "Pending Orders",
+            value: pendingOrders,
+            gradient: "from-yellow-400 to-yellow-600",
+            href: "/orders?status=PENDING"
+        },
+        {
+            title: "Orders Today",
+            value: ordersToday,
+            gradient: "from-purple-400 to-purple-600",
+        },
+    ];
+
     return (
         <div className="w-full px-3 py-6 space-y-3">
             <h1 className="text-2xl font-semibold">Dashboard</h1>
 
             {/* Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <DashboardCard
-                    title="Total Users"
-                    value={totalUsers}
-                    color="from-blue-400 to-blue-500"
-                    href="/users"
-                />
-                <DashboardCard
-                    title="Total Products"
-                    value={totalProducts}
-                    color="from-orange-400 to-orange-500"
-                    href="/products"
-                />
-                <DashboardCard
-                    title="Total Orders"
-                    value={totalOrders}
-                    color="from-pink-400 to-pink-500"
-                    href="/orders"
-                />
-                <DashboardCard
-                    title="Total Revenue"
-                    value={totalRevenue}
-                    color="from-green-400 to-green-500"
-                    isMoney
-                />
-                <DashboardCard
-                    title="Pending Orders"
-                    value={pendingOrders}
-                    color="from-yellow-400 to-yellow-500"
-                    href="/orders?status=PENDING"
-                />
-                <DashboardCard
-                    title="Orders Today"
-                    value={ordersToday}
-                    color="from-purple-400 to-purple-500"
-                />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {stats.map((stat) => (
+                    <StatCard
+                        key={stat.title}
+                        title={stat.title}
+                        value={stat.value}
+                        isMoney={stat.isMoney}
+                        href={stat.href}
+                        gradient={stat.gradient}
+                    />
+                ))}
             </div>
 
             {/* Recent Orders */}
@@ -128,7 +142,7 @@ export default async function AdminDashboardPage() {
                 <OrdersTable orders={recentOrders} />
             </div>
 
-            <RevenueChart data={chartData} />
+            <RevenueChart data={chartData} title="Revenue (7 days)" />
 
             <OrdersChart data={orderStatsData} />
 

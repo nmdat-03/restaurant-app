@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
   ChevronLeft,
@@ -11,12 +11,40 @@ import {
   ShoppingBag,
   ClipboardList,
   Users,
-  Images
+  Images,
+  ChevronDown,
+  ChartColumnBig,
 } from "lucide-react";
 import clsx from "clsx";
 
-const items = [
+// ===== Types =====
+type MenuItem =
+  | {
+    title: string;
+    href: string;
+    icon: any;
+  }
+  | {
+    title: string;
+    icon: any;
+    children: {
+      title: string;
+      href: string;
+    }[];
+  };
+
+// ===== Menu =====
+const items: MenuItem[] = [
   { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  {
+    title: "Reports",
+    icon: ChartColumnBig,
+    children: [
+      { title: "Revenue", href: "/reports/revenue" },
+      { title: "Orders", href: "/reports/orders" },
+      { title: "Products", href: "/reports/products" },
+    ],
+  },
   { title: "Products", href: "/products", icon: ShoppingBag },
   { title: "Orders", href: "/orders", icon: ClipboardList },
   { title: "Users", href: "/users", icon: Users },
@@ -26,6 +54,10 @@ const items = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(href + "/");
 
   return (
     <motion.div
@@ -54,9 +86,77 @@ export default function Sidebar() {
       <div className="flex flex-col gap-2">
         {items.map((item) => {
           const Icon = item.icon;
-          const active =
-            pathname === item.href ||
-            pathname.startsWith(item.href + "/");
+
+          // ===== Dropdown item =====
+          if ("children" in item) {
+            const isOpen = openDropdown === item.title || pathname.startsWith("/reports");
+
+            return (
+              <div key={item.title}>
+                <div
+                  onClick={() =>
+                    setOpenDropdown(isOpen ? null : item.title)
+                  }
+                  className={clsx(
+                    "rounded-md py-2 flex items-center cursor-pointer",
+                    open ? "px-3 gap-3 justify-between" : "justify-center",
+                    pathname.startsWith("/reports")
+                      ? "bg-blue-100 text-blue-600 font-medium"
+                      : "text-gray-500 hover:bg-gray-100"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon size={18} />
+                    {open && <span>{item.title}</span>}
+                  </div>
+
+                  {open && (
+                    <ChevronDown
+                      size={16}
+                      className={clsx(
+                        "transition-transform",
+                        isOpen && "rotate-180"
+                      )}
+                    />
+                  )}
+                </div>
+
+                {/* Children */}
+                <AnimatePresence>
+                  {open && isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="ml-6 mt-1 flex flex-col gap-1 overflow-hidden"
+                    >
+                      {item.children.map((child) => {
+                        const active = isActive(child.href);
+
+                        return (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className={clsx(
+                              "text-sm py-2 px-3 rounded-md",
+                              active
+                                ? "text-blue-600 font-medium"
+                                : "text-gray-500 hover:bg-gray-100"
+                            )}
+                          >
+                            {child.title}
+                          </Link>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          }
+
+          // ===== Normal item =====
+          const active = isActive(item.href);
 
           return (
             <Link
@@ -71,15 +171,7 @@ export default function Sidebar() {
               )}
             >
               <Icon size={18} />
-
-              {open && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {item.title}
-                </motion.span>
-              )}
+              {open && <span>{item.title}</span>}
             </Link>
           );
         })}

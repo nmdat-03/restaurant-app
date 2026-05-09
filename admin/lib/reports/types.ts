@@ -1,0 +1,1 @@
+export type GroupBy = "day" | "month" | "year";
