@@ -7,7 +7,7 @@ import { getGroupKey } from "./helpers";
 import { GroupBy } from "./types";
 
 // ===== Fetch orders data =====
-export async function getOrdersData(from?: Date, to?: Date) {
+export async function getOrdersReportData(from?: Date, to?: Date) {
   return prisma.order.findMany({
     where: {
       ...(from || to

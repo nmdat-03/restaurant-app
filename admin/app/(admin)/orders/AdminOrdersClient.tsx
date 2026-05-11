@@ -11,7 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { formatPrice, formatOrderTime } from "@/lib/format";
+import { formatPrice, formatOrderDate, formatOrderHour } from "@/lib/format";
 import {
     OrderStatusBadge,
     PaymentStatusBadge,
@@ -22,8 +22,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { MoreHorizontal } from "lucide-react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Clock, MoreHorizontal } from "lucide-react";
 import ConfirmModal from "@/components/common/ConfirmModal";
 
 type OrderWithUser = Prisma.OrderGetPayload<{
@@ -127,12 +132,19 @@ export default function AdminOrdersClient({
                         </TableRow>
                     </TableHeader>
 
-                    <TableBody>
-                        {sortedOrders.map(
-                            (order) => (
-                                <TableRow
-                                    key={order.id}
+                    <TableBody className="bg-white">
+                        {sortedOrders.length === 0 ? (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={8}
+                                    className="py-10 text-center text-gray-500"
                                 >
+                                    No orders found
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            sortedOrders.map((order) => (
+                                <TableRow key={order.id}>
                                     <TableCell className="font-medium">
                                         <Link
                                             href={`/orders/${order.id}`}
@@ -154,22 +166,28 @@ export default function AdminOrdersClient({
                                     </TableCell>
 
                                     <TableCell>
-                                        <div className="space-y-1 text-sm">
-                                            {(order.items ?? []).slice(0, 2).map((item) => (
-                                                <p key={item.id}>
-                                                    {item.product.name}{" "}
-                                                    x
-                                                    {item.quantity}
-                                                </p>
-                                            )
-                                            )}
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <button className="text-sm hover:underline">
+                                                        {order.items.reduce((sum, item) => sum + item.quantity, 0)}{" "} items
+                                                    </button>
+                                                </TooltipTrigger>
 
-                                            {(order.items?.length ?? 0) > 2 && (
-                                                <p className="text-xs text-gray-400">
-                                                    +{order.items.length - 2}{" "}more
-                                                </p>
-                                            )}
-                                        </div>
+                                                <TooltipContent
+                                                    side="top"
+                                                    className="max-w-xs"
+                                                >
+                                                    <div className="space-y-1 text-sm">
+                                                        {order.items.map((item) => (
+                                                            <p key={item.id}>
+                                                                {item.product.name} x{item.quantity}
+                                                            </p>
+                                                        ))}
+                                                    </div>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     </TableCell>
 
                                     <TableCell className="font-medium">
@@ -185,13 +203,20 @@ export default function AdminOrdersClient({
                                     </TableCell>
 
                                     <TableCell className="text-sm">
-                                        {formatOrderTime(order.createdAt)}
+                                        <div className="flex flex-col gap-1">
+                                            <span>{formatOrderDate(order.createdAt)}</span>
+
+                                            <span className="flex gap-1 items-center text-xs text-gray-500">
+                                                <Clock size={12} />
+                                                <p>{formatOrderHour(order.createdAt)}</p>
+                                            </span>
+                                        </div>
                                     </TableCell>
 
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
-                                                <button className="inline-flex h-9 w-9 items-center justify-center rounded-md border hover:bg-gray-100">
+                                                <button className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-white hover:bg-gray-100">
                                                     <MoreHorizontal size={16} />
                                                 </button>
                                             </DropdownMenuTrigger>
@@ -271,18 +296,10 @@ export default function AdminOrdersClient({
                                     </TableCell>
                                 </TableRow>
                             )
+                            )
                         )}
 
-                        {sortedOrders.length === 0 && (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={8}
-                                    className="py-10 text-center text-gray-500"
-                                >
-                                    No orders found
-                                </TableCell>
-                            </TableRow>
-                        )}
+
                     </TableBody>
                 </Table>
             </div>

@@ -12,8 +12,9 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { formatGroupLabel } from "@/lib/reports/helpers";
-import { getCompletionRate, getOrdersData, getOrderStatusStats, getPaymentMethodStats, groupOrders } from "@/lib/reports/orders";
+import { getCompletionRate, getOrdersReportData, getOrderStatusStats, getPaymentMethodStats, groupOrders } from "@/lib/reports/orders";
 import { GroupBy } from "@/lib/reports/types"
+import { Package, PackageCheck, PackageX, SquarePercent } from "lucide-react";
 
 export default async function OrdersReportPage({
     searchParams
@@ -70,7 +71,7 @@ export default async function OrdersReportPage({
         to.setHours(23, 59, 59, 999)
     }
 
-    const orders = await getOrdersData(from, to);
+    const orders = await getOrdersReportData(from, to);
 
     /* ===== Chart data ===== */
     const chartData = groupOrders(orders, groupBy, from, to);
@@ -126,31 +127,36 @@ export default async function OrdersReportPage({
         {
             title: "Total Orders",
             value: stats.total,
+            icon: Package,
             gradient: "from-blue-400 to-blue-600",
         },
         {
             title: "Completed Orders",
             value: stats.completed,
+            icon: PackageCheck,
             gradient: "from-green-400 to-green-600",
         },
         {
             title: "Cancelled Orders",
             value: stats.cancelled,
+            icon: PackageX,
             gradient: "from-red-400 to-red-600",
         },
         {
             title: "Completion Rate",
             value: `${completionRate}%`,
-            gradient: "from-purple-400 to-purple-600",
+            icon: SquarePercent,
+            gradient: "from-gray-400 to-gray-600",
         },
     ];
 
     return (
-        <div className="w-full px-3 py-6 space-y-6">
+        <div className="w-full px-3 py-6 space-y-5">
             <h1 className="text-2xl font-bold">
                 Orders Report
             </h1>
 
+            {/* Filter */}
             <ReportFilter basePath="/reports/orders" />
 
             {/* Cards */}
@@ -160,6 +166,7 @@ export default async function OrdersReportPage({
                         key={stat.title}
                         title={stat.title}
                         value={stat.value}
+                        icon={stat.icon}
                         gradient={stat.gradient}
                     />
                 ))}
@@ -202,7 +209,6 @@ export default async function OrdersReportPage({
                                             ? "Month"
                                             : "Year"}
                                 </TableHead>
-
                                 <TableHead>Total Orders</TableHead>
                                 <TableHead>Completed</TableHead>
                                 <TableHead>Cancelled</TableHead>
@@ -210,25 +216,21 @@ export default async function OrdersReportPage({
                         </TableHeader>
 
                         <TableBody>
-                            {tableData.map((item) => (
-                                <TableRow key={item.date}>
-                                    <TableCell>
-                                        {formatGroupLabel(item.date, groupBy)}
-                                    </TableCell>
-
-                                    <TableCell>{item.total}</TableCell>
-                                    <TableCell>{item.completed}</TableCell>
-                                    <TableCell>{item.cancelled}</TableCell>
-                                </TableRow>
-                            )
-                            )}
-
-                            {tableData.length === 0 && (
+                            {tableData.length === 0 ? (
                                 <TableRow>
-                                    <TableCell className="py-10 text-center text-gray-500">
+                                    <TableCell colSpan={4} className="py-10 text-center text-gray-500">
                                         No orders found
                                     </TableCell>
                                 </TableRow>
+                            ) : (
+                                tableData.map((item) => (
+                                    <TableRow key={item.date}>
+                                        <TableCell>{formatGroupLabel(item.date, groupBy)}</TableCell>
+                                        <TableCell>{item.total}</TableCell>
+                                        <TableCell>{item.completed}</TableCell>
+                                        <TableCell>{item.cancelled}</TableCell>
+                                    </TableRow>
+                                ))
                             )}
                         </TableBody>
                     </Table>

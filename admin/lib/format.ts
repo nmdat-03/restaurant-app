@@ -44,6 +44,23 @@ export function formatOrderTime(date: string | Date) {
 }
 
 /*------------------------------*/
+/*      FORMAT ORDER DATE       */
+/*------------------------------*/
+export function formatOrderDate(date: string | Date) {
+  return new Date(date).toLocaleDateString("vi-VN");
+}
+
+/*------------------------------*/
+/*      FORMAT ORDER HOUR       */
+/*------------------------------*/
+export function formatOrderHour(date: string | Date) {
+  return new Date(date).toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+/*------------------------------*/
 /*       FORMAT SHORT PRICE     */
 /*------------------------------*/
 export function formatShortPrice(value: number) {

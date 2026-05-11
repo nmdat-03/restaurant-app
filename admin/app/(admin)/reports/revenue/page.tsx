@@ -173,25 +173,24 @@ export default async function RevenueReportPage({
                         </TableHeader>
 
                         <TableBody>
-                            {tableData.map((item) => (
-                                <TableRow key={item.date}>
-                                    <TableCell>
-                                        {formatGroupLabel(item.date, groupBy)}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {formatPrice(Number(item.revenue) || 0)}
-                                    </TableCell>
-                                </TableRow>
-                            )
-                            )}
-
-                            {tableData.length === 0 && (
+                            {tableData.length === 0 ? (
                                 <TableRow>
-                                    <TableCell className="py-10 text-center text-gray-500">
+                                    <TableCell colSpan={2} className="py-10 text-center text-gray-500">
                                         No orders found
                                     </TableCell>
                                 </TableRow>
+                            ) : (
+                                tableData.map((item) => (
+                                    <TableRow key={item.date}>
+                                        <TableCell>
+                                            {formatGroupLabel(item.date, groupBy)}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            {formatPrice(Number(item.revenue) || 0)}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
                             )}
                         </TableBody>
                     </Table>

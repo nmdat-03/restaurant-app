@@ -118,55 +118,65 @@ export default function AdminProductsClient({ products }: { products: any[] }) {
                     </TableHeader>
 
                     <TableBody className="bg-white">
-                        {productList.map((product) => {
-                            const image = product.images?.[0]?.url || "/placeholder.png";
+                        {productList.length === 0 ? (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={8}
+                                    className="py-10 text-center text-gray-500"
+                                >
+                                    No orders found
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            productList.map((product) => {
+                                const image = product.images?.[0]?.url || "/placeholder.png";
 
-                            return (
-                                <TableRow key={product.id}>
-                                    <TableCell>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedIds.includes(product.id)}
-                                            onChange={() => toggleSelect(product.id)}
-                                            className="w-4 h-4 accent-black cursor-pointer"
-                                        />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Image
-                                                src={image}
-                                                alt={product.name}
-                                                width={50}
-                                                height={50}
-                                                className="rounded object-cover"
+                                return (
+                                    <TableRow key={product.id}>
+                                        <TableCell>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(product.id)}
+                                                onChange={() => toggleSelect(product.id)}
+                                                className="w-4 h-4 accent-black cursor-pointer"
                                             />
-                                            <div>
-                                                <p className="font-medium">{product.name}</p>
-                                                <p className="text-xs text-gray-500">{product.slug}</p>
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <Image
+                                                    src={image}
+                                                    alt={product.name}
+                                                    width={50}
+                                                    height={50}
+                                                    className="rounded object-cover"
+                                                />
+                                                <div>
+                                                    <p className="font-medium">{product.name}</p>
+                                                    <p className="text-xs text-gray-500">{product.slug}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </TableCell>
+                                        </TableCell>
 
-                                    <TableCell>{formatPrice(product.price)}</TableCell>
-                                    <TableCell>{product.category?.name || "-"}</TableCell>
-                                    <TableCell>{product.sold}</TableCell>
-                                    <TableCell>
-                                        <ProductStatusBadge active={product.isActive} />
-                                    </TableCell>
+                                        <TableCell>{formatPrice(product.price)}</TableCell>
+                                        <TableCell>{product.category?.name || "-"}</TableCell>
+                                        <TableCell>{product.sold}</TableCell>
+                                        <TableCell>
+                                            <ProductStatusBadge active={product.isActive} />
+                                        </TableCell>
 
-                                    <TableCell className="text-right">
-                                        <Link
-                                            href={`/products/${product.id}`}
-                                            className="px-3 py-1 text-sm border border-black rounded inline-flex gap-1 items-center"
-                                        >
-                                            <SquarePen size={16} />
-                                            Edit
-                                        </Link>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
+                                        <TableCell className="text-right">
+                                            <Link
+                                                href={`/products/${product.id}`}
+                                                className="px-3 py-1 text-sm border border-black bg-white rounded inline-flex gap-1 items-center"
+                                            >
+                                                <SquarePen size={16} />
+                                                Edit
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            }))}
                     </TableBody>
                 </Table>
             </div>

@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { formatPrice, formatOrderTime } from "@/lib/format";
+import { formatPrice, formatOrderDate, formatOrderHour } from "@/lib/format";
 import {
     OrderStatusBadge,
     PaymentStatusBadge,
@@ -21,7 +21,13 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Clock, MoreHorizontal } from "lucide-react";
 
 type OrderWithUser = Prisma.OrderGetPayload<{
     include: {
@@ -92,20 +98,28 @@ export default function OrdersTable({
 
                             {/* Items */}
                             <TableCell>
-                                <div className="space-y-1 text-sm">
-                                    {order.items.slice(0, 2).map((item) => (
-                                        <p key={item.id}>
-                                            {item.product.name} x
-                                            {item.quantity}
-                                        </p>
-                                    ))}
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <button className="text-sm hover:underline">
+                                                {order.items.reduce((sum, item) => sum + item.quantity, 0)}{" "} items
+                                            </button>
+                                        </TooltipTrigger>
 
-                                    {order.items.length > 2 && (
-                                        <p className="text-xs text-gray-400">
-                                            +{order.items.length - 2} more
-                                        </p>
-                                    )}
-                                </div>
+                                        <TooltipContent
+                                            side="top"
+                                            className="max-w-xs"
+                                        >
+                                            <div className="space-y-1 text-sm">
+                                                {order.items.map((item) => (
+                                                    <p key={item.id}>
+                                                        {item.product.name} x{item.quantity}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </TableCell>
 
                             {/* Total */}
@@ -129,7 +143,14 @@ export default function OrdersTable({
 
                             {/* Time */}
                             <TableCell className="text-sm">
-                                {formatOrderTime(order.createdAt)}
+                                <div className="flex flex-col">
+                                    <span>{formatOrderDate(order.createdAt)}</span>
+
+                                    <span className="flex gap-1 items-center text-xs text-gray-500">
+                                        <Clock size={12} />
+                                        <p>{formatOrderHour(order.createdAt)}</p>
+                                    </span>
+                                </div>
                             </TableCell>
 
                             {/* Actions */}

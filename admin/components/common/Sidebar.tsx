@@ -45,8 +45,8 @@ const items: MenuItem[] = [
       { title: "Products", href: "/reports/products" },
     ],
   },
-  { title: "Products", href: "/products", icon: ShoppingBag },
   { title: "Orders", href: "/orders", icon: ClipboardList },
+  { title: "Products", href: "/products", icon: ShoppingBag },
   { title: "Users", href: "/users", icon: Users },
   { title: "Sliders", href: "/sliders", icon: Images },
 ];

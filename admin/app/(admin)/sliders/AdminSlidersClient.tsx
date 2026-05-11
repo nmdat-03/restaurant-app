@@ -146,87 +146,8 @@ export default function AdminSlidersClient({
                         </TableRow>
                     </TableHeader>
 
-                    <TableBody>
-                        {sortedSliders.map((slider) => {
-                            const optimizedUrl = optimizeImage(slider.image, 300);
-
-                            return (
-                                <TableRow key={slider.id}>
-                                    <TableCell>
-                                        <div className="relative w-36 h-20 rounded overflow-hidden">
-                                            <Image
-                                                src={optimizedUrl}
-                                                alt={slider.altText || "banner"}
-                                                fill
-                                                className="object-cover"
-                                                unoptimized
-                                            />
-                                        </div>
-                                    </TableCell>
-
-                                    <TableCell>
-                                        <SliderStatusBadge
-                                            active={slider.isActive}
-                                        />
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {slider.sortOrder}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {new Date(
-                                            slider.createdAt
-                                        ).toLocaleDateString()}
-                                    </TableCell>
-
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <button className="inline-flex h-9 w-9 items-center justify-center rounded-md border hover:bg-gray-100">
-                                                    <MoreHorizontal size={16} />
-                                                </button>
-                                            </DropdownMenuTrigger>
-
-                                            <DropdownMenuContent
-                                                align="end"
-                                                className="w-44"
-                                            >
-                                                <DropdownMenuItem className="px-4 py-2">
-                                                    <Link href={`/sliders/${slider.id}`}>
-                                                        Edit
-                                                    </Link>
-                                                </DropdownMenuItem>
-
-                                                <DropdownMenuItem
-                                                    className="px-4 py-2"
-                                                    onClick={() =>
-                                                        handleToggle(slider)
-                                                    }
-                                                >
-                                                    {slider.isActive
-                                                        ? "Hide"
-                                                        : "Show"}
-                                                </DropdownMenuItem>
-
-                                                <DropdownMenuItem
-                                                    className="px-4 py-2 text-red-700 focus:text-red-700 focus:bg-red-50"
-                                                    onClick={() =>
-                                                        setConfirm({
-                                                            id: slider.id,
-                                                        })
-                                                    }
-                                                >
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-
-                        {sortedSliders.length === 0 && (
+                    <TableBody className="bg-white">
+                        {sortedSliders.length === 0 ? (
                             <TableRow>
                                 <TableCell
                                     colSpan={6}
@@ -235,7 +156,88 @@ export default function AdminSlidersClient({
                                     No sliders found
                                 </TableCell>
                             </TableRow>
+                        ) : (
+                            sortedSliders.map((slider) => {
+                                const optimizedUrl = optimizeImage(slider.image, 300);
+
+                                return (
+                                    <TableRow key={slider.id}>
+                                        <TableCell>
+                                            <div className="relative w-36 h-20 rounded overflow-hidden">
+                                                <Image
+                                                    src={optimizedUrl}
+                                                    alt={slider.altText || "banner"}
+                                                    fill
+                                                    className="object-cover"
+                                                    unoptimized
+                                                />
+                                            </div>
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <SliderStatusBadge
+                                                active={slider.isActive}
+                                            />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            {slider.sortOrder}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            {new Date(
+                                                slider.createdAt
+                                            ).toLocaleDateString()}
+                                        </TableCell>
+
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <button className="inline-flex h-9 w-9 items-center justify-center rounded-md border hover:bg-gray-100">
+                                                        <MoreHorizontal size={16} />
+                                                    </button>
+                                                </DropdownMenuTrigger>
+
+                                                <DropdownMenuContent
+                                                    align="end"
+                                                    className="w-44"
+                                                >
+                                                    <DropdownMenuItem className="px-4 py-2">
+                                                        <Link href={`/sliders/${slider.id}`}>
+                                                            Edit
+                                                        </Link>
+                                                    </DropdownMenuItem>
+
+                                                    <DropdownMenuItem
+                                                        className="px-4 py-2"
+                                                        onClick={() =>
+                                                            handleToggle(slider)
+                                                        }
+                                                    >
+                                                        {slider.isActive
+                                                            ? "Hide"
+                                                            : "Show"}
+                                                    </DropdownMenuItem>
+
+                                                    <DropdownMenuItem
+                                                        className="px-4 py-2 text-red-700 focus:text-red-700 focus:bg-red-50"
+                                                        onClick={() =>
+                                                            setConfirm({
+                                                                id: slider.id,
+                                                            })
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })
                         )}
+
+
                     </TableBody>
                 </Table>
             </div>
