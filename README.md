@@ -144,8 +144,8 @@ CLOUDINARY_API_SECRET=
 
 ### Generate Prisma Client
 ```bash
-pnpm db:generate
-pnpm db:seed
+pnpm prisma generate
+pnpm prisma db seed
 ```
 
 ## ▶️ Run Development Servers
