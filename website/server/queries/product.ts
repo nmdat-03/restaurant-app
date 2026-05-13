@@ -16,10 +16,7 @@ type GetProductsParams = {
 /*----------------------------------------*/
 /*        BUILD WHERE CONDITION           */
 /*----------------------------------------*/
-function buildWhere({
-  searchQuery,
-  categorySlug,
-}: GetProductsParams) {
+function buildWhere({ searchQuery, categorySlug }: GetProductsParams) {
   const categorySlugs = categorySlug?.split(",").filter(Boolean);
 
   return {
@@ -85,6 +82,37 @@ export async function getProductsCount(params: GetProductsParams) {
   return prisma.product.count({
     where,
   });
+}
+
+/*----------------------------------------*/
+/*     HOMEPAGE: BEST SELLING PRODUCTS    */
+/*----------------------------------------*/
+export async function getBestSellingProducts(limit = 10) {
+  const bestSelling = await prisma.orderItem.groupBy({
+    by: ["productId"],
+    where: {
+      order: { orderStatus: "COMPLETED" },
+    },
+    _sum: { quantity: true },
+    orderBy: {
+      _sum: { quantity: "desc" },
+    },
+    take: limit,
+  });
+
+  const productIds = bestSelling.map((item) => item.productId);
+
+  const products = await prisma.product.findMany({
+    where: {
+      id: { in: productIds },
+      isActive: true,
+    },
+    include: { images: true },
+  });
+
+  return productIds
+    .map((id) => products.find((p) => p.id === id))
+    .filter(Boolean);
 }
 
 /*----------------------------------------*/

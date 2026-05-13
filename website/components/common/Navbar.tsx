@@ -11,7 +11,7 @@ import SearchBar from "./SearchBar";
 import CustomButton from "./CustomButton";
 
 const menuItems = [
-    { label: "Products", href: "/products" },
+    { label: "Menu", href: "/products" },
     { label: "Contact", href: "/contact" },
 ];
 
@@ -36,7 +36,7 @@ export default function Navbar() {
             <div className="container mx-auto flex items-center justify-between py-4">
                 {/* Logo */}
                 <Link href="/" className="text-xl font-bold">
-                    MyStore
+                    MyRestaurant
                 </Link>
 
                 {/* Desktop Menu */}

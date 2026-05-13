@@ -70,9 +70,11 @@ export function InputField<T extends FieldValues>({
   className,
   type = "text",
   disabled,
+  placeholder,
 }: BaseProps<T> & {
   register: UseFormRegister<T>;
   type?: React.HTMLInputTypeAttribute;
+  placeholder?: string;
 }) {
   return (
     <Wrapper
@@ -84,6 +86,7 @@ export function InputField<T extends FieldValues>({
         type={type}
         {...register(name)}
         disabled={disabled}
+        placeholder={placeholder}
         className={fieldClass(error)}
       />
     </Wrapper>

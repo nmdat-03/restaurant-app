@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { Skeleton } from "../ui/skeleton";
+import { formatPrice } from "@/lib/format";
 
 type Suggestion = {
     id: string;
@@ -214,7 +215,7 @@ export default function SearchBar() {
                                             {item.name}
                                         </span>
                                         <span className="text-sm font-semibold text-black">
-                                            ${item.price.toLocaleString()}
+                                            {formatPrice(item.price)}
                                         </span>
                                     </div>
                                 </div>

@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             whileHover={{ y: -6 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            className="bg-white p-3 group rounded-xl shadow-md overflow-hidden"
+            className="bg-white p-3 group rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
         >
             {/* Image */}
             <Link href={`/product/${product.slug}`}>
