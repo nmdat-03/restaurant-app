@@ -4,7 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { CircleAlert } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRef } from "react";
+
 import { formatPrice } from "@/lib/format";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 type ProductCardProps = {
     product: {
@@ -24,6 +27,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         product.images.find((img) => img.isPrimary)?.url ||
         product.images[0]?.url;
 
+    const imgRef = useRef<HTMLDivElement>(null);
+
     return (
         <motion.div
             whileHover={{ y: -6 }}
@@ -31,9 +36,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
             className="bg-white p-3 group rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
         >
-            {/* Image */}
+            {/* Clickable area */}
             <Link href={`/product/${product.slug}`}>
-                <div className="relative w-full aspect-square rounded-lg bg-gray-100 overflow-hidden">
+                {/* Image */}
+                <div
+                    ref={imgRef}
+                    className="relative w-full aspect-square rounded-lg bg-gray-100 overflow-hidden"
+                >
                     {image ? (
                         <motion.div
                             className="w-full h-full"
@@ -63,11 +72,26 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <h2 className="text-sm font-normal line-clamp-2 group-hover:text-black/80 transition">
                         {product.name}
                     </h2>
+
                     <p className="text-base font-semibold text-black">
                         {formatPrice(product.price)}
                     </p>
                 </div>
             </Link>
+
+            {/* Add to cart */}
+            <div className="mt-3">
+                <AddToCartButton
+                    variant="card"
+                    product={{
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image,
+                    }}
+                    imgRef={imgRef}
+                />
+            </div>
         </motion.div>
     );
 }

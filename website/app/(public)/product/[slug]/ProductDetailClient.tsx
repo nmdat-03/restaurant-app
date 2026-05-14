@@ -127,6 +127,7 @@ export default function ProductDetailClient({ product }: any) {
 
                         {/* Add to cart */}
                         <AddToCartButton
+                            variant="page"
                             imgRef={imgRef}
                             product={{
                                 id: product.id,

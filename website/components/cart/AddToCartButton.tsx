@@ -18,6 +18,7 @@ type Props = {
     imgRef?: React.RefObject<HTMLElement | null>;
     disabled?: boolean;
     quantity?: number;
+    variant?: "card" | "page";
 };
 
 export default function AddToCartButton({
@@ -25,6 +26,7 @@ export default function AddToCartButton({
     imgRef,
     disabled,
     quantity = 1,
+    variant = "page"
 }: Props) {
     const addToCart = useCartStore((state) => state.addToCart);
     const { isSignedIn } = useUser();
@@ -92,10 +94,15 @@ export default function AddToCartButton({
             onClick={handleAddToCart}
             disabled={disabled || isPending}
             className={clsx(
-                "flex items-center justify-center gap-2 rounded-lg transition w-full md:w-fit px-5 py-3 font-semibold text-sm",
+                "flex items-center justify-center gap-2 rounded-lg transition font-semibold",
+
+                variant === "card" && "w-full py-3 text-sm",
+
+                variant === "page" && "w-fit px-5 py-3 text-sm",
+
                 disabled || isPending
-                    ? "bg-zinc-800 text-white cursor-not-allowed"
-                    : "bg-black text-white hover:bg-zinc-800"
+                    ? "bg-linear-to-t from-slate-300 via-slate-200 to-slate-100 text-black cursor-not-allowed"
+                    : "bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white"
             )}
         >
             <ShoppingBag size={18} />

@@ -114,17 +114,14 @@ export default function CustomPagination({
                                     e.preventDefault();
                                     navigate(page);
                                 }}
-                                className={`
-                                    min-w-9 cursor-pointer
-                                    ${
-                                        page === currentPage
-                                            ? "bg-black text-white hover:bg-black hover:text-white"
-                                            : ""
+                                className={`min-w-9 cursor-pointer
+                                    ${page === currentPage
+                                        ? "bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white hover:text-white"
+                                        : "bg-white hover:bg-white text-black hover:text-black"
                                     }
-                                    ${
-                                        isPending
-                                            ? "pointer-events-none opacity-70"
-                                            : ""
+                                    ${isPending
+                                        ? "pointer-events-none opacity-70"
+                                        : ""
                                     }
                                 `}
                             >

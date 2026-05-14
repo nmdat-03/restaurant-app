@@ -5,6 +5,7 @@ import { getCategories } from "@/server/queries/category";
 import { getBestSellingProducts, getNewestProducts } from "@/server/queries/product";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Reveal from "@/components/common/Reveal";
 
 
 export default async function HomePage() {
@@ -18,46 +19,54 @@ export default async function HomePage() {
             <Hero />
 
             {/* BANNER SLIDER */}
-            <BannerSlider />
+            <Reveal>
+                <BannerSlider />
+            </Reveal>
 
             {/* CATEGORIES */}
-            <div className="container py-6">
-                <h2 className="text-xl font-semibold mb-4">Menu Categories</h2>
+            <Reveal>
+                <div className="container py-6">
+                    <h2 className="text-xl font-semibold mb-4">Menu Categories</h2>
 
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                    {categories.map((category) => (
-                        <Link
-                            key={category.id}
-                            href={`/products/category?${category.slug}`}
-                            className="bg-white border rounded-xl p-4 shadow-md hover:shadow-lg transition flex items-center justify-center"
-                        >
-                            {category.name}
-                        </Link>
-                    ))}
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        {categories.map((category) => (
+                            <Link
+                                key={category.id}
+                                href={`/products/category?${category.slug}`}
+                                className="bg-white border rounded-xl p-4 shadow-md hover:shadow-lg transition flex items-center justify-center"
+                            >
+                                {category.name}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </Reveal>
 
             {/* BEST SELLING DISHES */}
-            <div className="container py-6">
-                <h2 className="text-xl font-semibold mb-4">Best Selling Dishes</h2>
+            <Reveal>
+                <div className="container py-6">
+                    <h2 className="text-xl font-semibold mb-4">Best Selling Dishes</h2>
 
-                <ProductList products={bestSellingProducts} />
-            </div>
+                    <ProductList products={bestSellingProducts} />
+                </div>
+            </Reveal>
 
             {/* NEWEST PRODUCTS */}
-            <div className="container py-6">
-                <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold">Newest Dishes</h2>
+            <Reveal>
+                <div className="container py-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold">Newest Dishes</h2>
 
-                    <Link
-                        href="/products?sort=newest"
-                        className="flex items-center gap-1 text-sm hover:underline"
-                    >
-                        View all <ArrowRight size={16} />
-                    </Link>
+                        <Link
+                            href="/products?sort=newest"
+                            className="flex items-center gap-1 text-sm hover:underline"
+                        >
+                            View all <ArrowRight size={16} />
+                        </Link>
+                    </div>
+                    <ProductList products={products} />
                 </div>
-                <ProductList products={products} />
-            </div>
+            </Reveal>
 
         </div>
     );
