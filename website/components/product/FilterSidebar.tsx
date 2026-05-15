@@ -110,7 +110,7 @@ export default function FilterSidebar({ categories, onApply }: Props) {
                     onClick={handleReset}
                     disabled={isEmpty || isPending}
                     className={clsx(
-                        "w-1/2 border border-black py-2 rounded-md",
+                        "w-1/2 bg-linear-to-t from-slate-200 via-slate-100 to-slate-50 border py-2 rounded-md",
                         (isEmpty || isPending) && "opacity-50 pointer-events-none"
                     )}
                 >
@@ -121,7 +121,7 @@ export default function FilterSidebar({ categories, onApply }: Props) {
                     onClick={handleApply}
                     disabled={isPending}
                     className={clsx(
-                        "w-1/2 bg-black text-white py-2 rounded-md flex items-center justify-center gap-2",
+                        "w-1/2 bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white py-2 rounded-md flex items-center justify-center gap-2",
                         isPending && "opacity-70 pointer-events-none"
                     )}
                 >

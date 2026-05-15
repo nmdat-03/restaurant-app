@@ -149,7 +149,7 @@ export default function SearchBar() {
                         );
                     }
                 }}
-                placeholder="Search products..."
+                placeholder="Search dishes..."
                 className="w-full border-2 border-black pl-10 pr-4 py-2 rounded-full outline-none text-sm"
             />
 

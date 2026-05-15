@@ -54,7 +54,7 @@ export default async function ProductsClient({
 
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold">
-                        {q ? `Results for "${q}" (${total})` : `All Products (${total})`}
+                        {q ? `Results for "${q}" (${total})` : `All Dishes (${total})`}
                     </h2>
 
                     <SortBar />
