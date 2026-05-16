@@ -6,9 +6,7 @@ export const productSchema = z.object({
   price: z.preprocess(
     (val) => (val === "" ? undefined : Number(val)),
     z
-      .number({
-        error: "Please enter price",
-      })
+      .number({ error: "Please enter price" })
       .min(0, "Price cannot be negative"),
   ),
 

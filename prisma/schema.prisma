@@ -111,13 +111,25 @@ model ProductImage {
 }
 
 model Category {
-  id   String @id @default(cuid())
+  id String @id @default(cuid())
+
   name String @unique
   slug String @unique
 
   image String?
 
+  isActive Boolean @default(true)
+
+  parentId String?
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   products Product[]
+
+  @@index([parentId])
 }
 
 model Cart {
@@ -196,11 +208,11 @@ model OrderItem {
 model Slider {
   id String @id @default(cuid())
 
-  image     String
-  publicId  String?
+  image    String
+  publicId String?
 
-  link      String?
-  altText   String?
+  link    String?
+  altText String?
 
   isActive  Boolean @default(true)
   sortOrder Int     @default(0)

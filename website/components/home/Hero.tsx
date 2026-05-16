@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import CustomButton from "../common/CustomButton";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 const images = [
     {
-        src: "/images/bun-thit-nuong.jpeg",
+        src: "/images/bun_thit_nuong.jpeg",
         rotate: "-6deg",
         translate: "-translate-y-6",
     },
@@ -73,11 +72,11 @@ export default function Hero() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.8 }}
-                            className="text-6xl md:text-7xl font-black text-white leading-tight"
+                            className="text-6xl font-black text-white leading-tight"
                         >
-                            Taste The
+                            Exploring
                             <span className="block bg-linear-to-r from-red-500 via-yellow-300 to-red-500 bg-clip-text text-transparent">
-                                Vietnam
+                                Vietnamese
                             </span>
                             Food
                         </motion.h1>

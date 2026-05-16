@@ -31,6 +31,8 @@ async function main() {
       create: {
         name: `Category ${i}`,
         slug: `category-${i}`,
+        image: imagePool[i % imagePool.length].url,
+        isActive: true,
       },
     });
   }
@@ -39,7 +41,7 @@ async function main() {
 
   // ===== PRODUCT =====
   for (let i = 1; i <= 30; i++) {
-    const category = categories[i % categories.length];
+    const category = categories[(i - 1) % categories.length];
 
     const randomImage = imagePool[Math.floor(Math.random() * imagePool.length)];
 

@@ -14,6 +14,7 @@ import {
   Images,
   ChevronDown,
   ChartColumnBig,
+  FolderTree,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -46,6 +47,7 @@ const items: MenuItem[] = [
     ],
   },
   { title: "Orders", href: "/orders", icon: ClipboardList },
+  { title: "Categories", href: "/categories", icon: FolderTree },
   { title: "Products", href: "/products", icon: ShoppingBag },
   { title: "Users", href: "/users", icon: Users },
   { title: "Sliders", href: "/sliders", icon: Images },
