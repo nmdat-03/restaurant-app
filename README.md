@@ -12,61 +12,66 @@ This project consists of two applications:
 
 The application is fully responsive and optimized for:
 
-+ Desktop
-+ Tablet
-+ Mobile devices
-
+- Desktop
+- Tablet
+- Mobile devices
 
 ## 🚀 Tech Stack
 
 ### Frontend
-+ Next.js 15
-+ React 19
-+ TypeScript
-+ Tailwind CSS v4
-+ shadcn/ui
-+ Framer Motion
-+ Zustand
-+ React Hook Form
-+ Zod
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Framer Motion
+- Zustand
+- React Hook Form
+- Zod
 
 ### Backend & Database
-+ Prisma ORM
-+ PostgreSQL (recommended)
-+ Clerk Authentication
-+ Cloudinary
+
+- Prisma ORM
+- PostgreSQL (recommended)
+- Clerk Authentication
+- Cloudinary
 
 ### UI & Charts
-+ Radix UI
-+ Recharts
-+ Lucide React
-+ Swiper
+
+- Radix UI
+- Recharts
+- Lucide React
+- Swiper
 
 ## ✨ Features
 
 ### 🌐 Website
-+ Modern responsive restaurant UI
-+ Menu browsing
-+ Food categories
-+ Product detail pages
-+ Authentication with Clerk
-+ Dynamic filtering
-+ Form validation with Zod
-+ State management with Zustand
+
+- Modern responsive restaurant UI
+- Menu browsing
+- Food categories
+- Product detail pages
+- Authentication with Clerk
+- Dynamic filtering
+- Form validation with Zod
+- State management with Zustand
 
 ### ⚙️ Admin Dashboard
-+ Secure admin authentication
-+ Dashboard analytics
-+ Product management
-+ Category management
-+ Image upload with Cloudinary
-+ Form handling with React Hook Form
-+ Charts with Recharts
-+ Real-time UI updates
+
+- Secure admin authentication
+- Dashboard analytics
+- Product management
+- Category management
+- Image upload with Cloudinary
+- Form handling with React Hook Form
+- Charts with Recharts
+- Real-time UI updates
 
 ## 🛠️ Installation
 
 ### 1. Clone Repository
+
 ```bash
 git clone https://github.com/nmdat-03/restaurant-app.git
 cd restaurant-app
@@ -74,18 +79,21 @@ cd restaurant-app
 
 ### 2. Install Dependencies
 
-+ Root
+- Root
+
 ```bash
 pnpm install
 ```
 
-+ Website
+- Website
+
 ```bash
 cd website
 pnpm install
 ```
 
-+ Admin
+- Admin
+
 ```bash
 cd admin
 pnpm install
@@ -100,6 +108,7 @@ This project uses 3 environment files:
 ```env
 DATABASE_URL=""
 ```
+
 ### Create `.env.local` inside folder `website/`
 
 ```env
@@ -135,6 +144,7 @@ VNP_TMN_CODE=
 VNP_HASH_SECRET=
 
 # Cloudinary
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=nmd2910
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
@@ -143,6 +153,7 @@ CLOUDINARY_API_SECRET=
 ## 🗄️ Database Setup
 
 ### Generate Prisma Client
+
 ```bash
 pnpm prisma generate
 pnpm prisma db seed
@@ -151,12 +162,14 @@ pnpm prisma db seed
 ## ▶️ Run Development Servers
 
 ### Start Website
+
 ```bash
 cd website
 pnpm dev
 ```
 
 ### Start Admin Dashboard
+
 ```bash
 cd admin
 pnpm dev
