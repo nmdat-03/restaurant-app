@@ -85,14 +85,14 @@ export default function CheckoutClient({ initialAddresses }: Props) {
 
     if (selectedItems.length === 0) {
         return (
-            <div className="container py-6 text-center italic">
+            <div className="container py-3 text-center italic">
                 No items selected
             </div>
         );
     }
 
     return (
-        <div className="container space-y-3">
+        <div className="container py-3 space-y-3">
             {/* BACK BUTTON */}
             <CustomButton
                 onClick={() => router.back()}

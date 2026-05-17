@@ -162,12 +162,8 @@ export default function OrderCard({
                                 >
                                     <div className="flex items-center gap-3 min-w-0">
                                         <Image
-                                            src={
-                                                item.product?.images?.[0]?.url || "/no-image.png"
-                                            }
-                                            alt={
-                                                item.product?.name || "Product"
-                                            }
+                                            src={item.product?.images?.[0]?.url || "/no-image.png"}
+                                            alt={item.product?.name || "Product"}
                                             width={60}
                                             height={60}
                                             className="rounded-lg object-cover border shrink-0"
@@ -179,19 +175,13 @@ export default function OrderCard({
                                             </p>
 
                                             <p className="text-gray-500">
-                                                Quantity: x
-                                                {
-                                                    item.quantity
-                                                }
+                                                Quantity: x{item.quantity}
                                             </p>
                                         </div>
                                     </div>
 
                                     <p className="font-semibold whitespace-nowrap">
-                                        {formatPrice(
-                                            item.price *
-                                            item.quantity
-                                        )}
+                                        {formatPrice(item.price * item.quantity)}
                                     </p>
                                 </motion.div>
                             ))}
@@ -207,10 +197,8 @@ export default function OrderCard({
                     order.orderStatus ===
                     OrderStatus.CONFIRMED) && (
                         <button
-                            onClick={() =>
-                                setShowConfirm(true)
-                            }
-                            className="px-3 py-1 text-sm bg-red-100 text-red-500 border border-red-500 rounded-md"
+                            onClick={() => setShowConfirm(true)}
+                            className="px-3 py-1 text-sm bg-red-100 rounded-md text-red-600"
                         >
                             Cancel Order
                         </button>

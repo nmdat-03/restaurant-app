@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputField, SelectField, TextareaField } from "../common/FormField";
 import UploadImages from "../common/UploadImages";
 import CustomButton from "../common/CustomButton";
-import { ProductFormValues, productSchema, ProductSubmitValues } from "../../lib/validators/product";
-
+import {
+    ProductFormValues,
+    productSchema,
+} from "../../lib/validators/product";
 
 export default function ProductForm({
     categories,
@@ -21,6 +23,7 @@ export default function ProductForm({
 }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const cleanupRef = useRef<(() => void) | null>(null);
 
     const slugify = (text: string) =>
         text
@@ -41,12 +44,19 @@ export default function ProductForm({
         formState: { errors },
     } = useForm<ProductFormValues>({
         resolver: zodResolver(productSchema),
+
         defaultValues: {
             name: product?.name || "",
             price: product?.price || "",
             description: product?.description || "",
             categoryId: product?.categoryId || "",
-            images: product?.images || [],
+
+            images:
+                product?.images?.map((img: any) => ({
+                    url: img.url,
+                    publicId: img.publicId,
+                    persisted: true,
+                })) || [],
         },
     });
 
@@ -56,12 +66,10 @@ export default function ProductForm({
         setLoading(true);
 
         try {
-            const parsed: ProductSubmitValues = productSchema.parse(data);
-
             const payload = {
-                ...parsed,
-                slug: slugify(parsed.name),
-                categoryId: parsed.categoryId || null,
+                ...data,
+                slug: slugify(data.name),
+                categoryId: data.categoryId || null,
             };
 
             const url = isEdit
@@ -72,7 +80,9 @@ export default function ProductForm({
 
             const res = await fetch(url, {
                 method,
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify(payload),
             });
 
@@ -81,6 +91,10 @@ export default function ProductForm({
                 setLoading(false);
                 return;
             }
+
+            cleanupRef.current?.();
+
+            setLoading(false);
 
             router.push("/products");
             router.refresh();
@@ -98,6 +112,7 @@ export default function ProductForm({
             <h1 className="text-2xl font-bold">
                 {isEdit ? "Edit Product" : "Add Product"}
             </h1>
+
             <div>
                 <label className="block text-sm font-medium mb-1">
                     Upload Images
@@ -106,15 +121,15 @@ export default function ProductForm({
                 <UploadImages
                     images={images}
                     onChange={(imgs) =>
-                        setValue(
-                            "images", imgs,
-                            {
-                                shouldValidate: true,
-                            }
-                        )
+                        setValue("images", imgs, {
+                            shouldValidate: true,
+                        })
                     }
                     multiple={true}
                     max={5}
+                    onCleanupReady={(clear) => {
+                        cleanupRef.current = clear;
+                    }}
                 />
             </div>
 
@@ -144,6 +159,7 @@ export default function ProductForm({
                             label: "Select category",
                             value: "",
                         },
+
                         ...categories.map((item: any) => ({
                             label: item.name,
                             value: item.id,

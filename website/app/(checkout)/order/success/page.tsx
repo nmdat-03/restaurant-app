@@ -26,7 +26,7 @@ export default function SuccessPage() {
 
                 {/* Description */}
                 <p className="text-gray-500 text-sm">
-                    Thank you for your purchase. Your order has been received.
+                    Your order has been received.
                 </p>
 
                 {/* Order ID */}
@@ -39,14 +39,14 @@ export default function SuccessPage() {
                 <div className="flex gap-3">
                     <Link
                         href="/"
-                        className="flex-1 bg-black text-white py-2 rounded-lg hover:opacity-90 transition"
+                        className="flex-1 bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white py-2 rounded-lg hover:opacity-90 transition"
                     >
-                        Continue Shopping
+                        Home
                     </Link>
 
                     <Link
                         href="/orders"
-                        className="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition"
+                        className="flex-1 bg-linear-to-t from-slate-300 via-slate-200 to-slate-100 py-2 rounded-lg hover:opacity-90 transition"
                     >
                         View Orders
                     </Link>

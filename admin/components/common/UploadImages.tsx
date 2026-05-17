@@ -7,7 +7,8 @@ import { useCloudinaryCleanup } from "@/hooks/useCloudinaryCleanup";
 
 type ImageType = {
     url: string;
-    publicId?: string;
+    publicId?: string | null;
+    persisted?: boolean;
 };
 
 export default function UploadImages({
@@ -32,14 +33,20 @@ export default function UploadImages({
     }, [clear, onCleanupReady]);
 
     const handleSuccess = (result: any) => {
-        setUploading(false);
-
         const info = result?.info;
+
         if (!info?.secure_url) return;
+
+        const alreadyExists = images.some(
+            (img) => img.publicId === info.public_id
+        );
+
+        if (alreadyExists) return;
 
         const newImage: ImageType = {
             url: info.secure_url,
             publicId: info.public_id,
+            persisted: false,
         };
 
         if (info.public_id) {
@@ -57,16 +64,24 @@ export default function UploadImages({
     const handleRemove = async (index: number) => {
         const img = images[index];
 
-        if (img.publicId) {
+        if (!img.persisted && img.publicId) {
             await fetch("/api/cloudinary/delete", {
                 method: "POST",
-                body: JSON.stringify({ publicId: img.publicId }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    publicId: img.publicId,
+                }),
             });
 
-            remove(img.publicId);
+            if (img.publicId) {
+                remove(img.publicId);
+            }
         }
 
         const newImages = images.filter((_, i) => i !== index);
+
         onChange(newImages);
     };
 
@@ -75,11 +90,23 @@ export default function UploadImages({
             {/* Upload button */}
             <CldUploadWidget
                 uploadPreset="e-commerce"
-                onUpload={() => setUploading(true)}
+                onQueuesStart={() => setUploading(true)}
+                onQueuesEnd={() => setUploading(false)}
                 onSuccess={handleSuccess}
                 onError={() => {
                     setUploading(false);
                     alert("Upload failed");
+                }}
+                options={{
+                    maxFiles: max,
+                    resourceType: "image",
+                    clientAllowedFormats: [
+                        "jpg",
+                        "jpeg",
+                        "png",
+                        "webp",
+                    ],
+                    maxFileSize: 2000000,
                 }}
             >
                 {({ open }: { open: () => void }) => (
@@ -103,15 +130,17 @@ export default function UploadImages({
             {/* Preview */}
             <div className="grid grid-cols-3 gap-3">
                 {images.map((img, i) => (
-                    <div key={i} className="relative group">
+                    <div key={img.publicId || img.url} className="relative group">
                         <img
                             src={img.url}
+                            alt="Dish Image"
                             className="w-full h-24 object-cover rounded-xl border"
                         />
 
                         {/* Delete button */}
                         <button
                             type="button"
+                            disabled={uploading}
                             onClick={() => handleRemove(i)}
                             className="absolute top-1 right-1 bg-red-500 text-white text-xs p-1 rounded opacity-0 group-hover:opacity-100 transition"
                         >

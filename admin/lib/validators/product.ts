@@ -14,12 +14,16 @@ export const productSchema = z.object({
 
   categoryId: z.string().min(1, "Please select category"),
 
-  images: z.array(
-    z.object({
-      url: z.string(),
-      publicId: z.string().optional(),
-    }),
-  ),
+  images: z
+    .array(
+      z.object({
+        url: z.string().url(),
+        publicId: z.string().nullable().optional(),
+        persisted: z.boolean().optional(),
+      }),
+    )
+    .min(1, "At least one image required")
+    .max(5, "Maximum 5 images"),
 });
 
 export type ProductFormValues = z.input<typeof productSchema>;
