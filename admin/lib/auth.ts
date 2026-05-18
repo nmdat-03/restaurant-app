@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export async function getCurrentUser() {
   const { userId } = await auth();
@@ -20,7 +21,10 @@ export async function getCurrentUser() {
   const image = clerkUser?.imageUrl ?? null;
 
   const user = await prisma.user.upsert({
-    where: { clerkId: userId },
+    where: {
+      clerkId: userId,
+    },
+
     update: {
       email,
       phone,
@@ -28,6 +32,7 @@ export async function getCurrentUser() {
       name,
       image,
     },
+
     create: {
       clerkId: userId,
       email,
@@ -35,14 +40,28 @@ export async function getCurrentUser() {
       username,
       name,
       image,
-      cart: {
-        create: {},
-      },
     },
-    include: {
-      cart: true,
+
+    select: {
+      id: true,
+      clerkId: true,
+      username: true,
+      name: true,
+      email: true,
+      image: true,
+      role: true,
     },
   });
+
+  return user;
+}
+
+export async function requireAdmin() {
+  const user = await getCurrentUser();
+
+  if (!user || user.role !== "ADMIN") {
+    redirect("/sign-in");
+  }
 
   return user;
 }
