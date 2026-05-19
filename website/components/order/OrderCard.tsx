@@ -93,12 +93,8 @@ export default function OrderCard({
                 <div className="flex items-center justify-between text-sm border-b pb-3 gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                         <Image
-                            src={
-                                firstItem.product?.images?.[0]?.url || "/no-image.png"
-                            }
-                            alt={
-                                firstItem.product?.name || "Product"
-                            }
+                            src={firstItem.product?.images?.[0]?.url || "/icons/no-image.png"}
+                            alt={firstItem.product?.name || "Product"}
                             width={60}
                             height={60}
                             className="rounded-lg object-cover border shrink-0"
@@ -162,7 +158,7 @@ export default function OrderCard({
                                 >
                                     <div className="flex items-center gap-3 min-w-0">
                                         <Image
-                                            src={item.product?.images?.[0]?.url || "/no-image.png"}
+                                            src={item.product?.images?.[0]?.url || "/icons/no-image.png"}
                                             alt={item.product?.name || "Product"}
                                             width={60}
                                             height={60}

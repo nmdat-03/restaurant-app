@@ -27,7 +27,7 @@ export default async function CreateCategoryPage() {
   });
 
   return (
-    <div className="w-full px-6 py-6 space-y-5">
+    <div className="w-full p-3 space-y-5">
       {/* BACK */}
       <div>
         <Link href="/categories">

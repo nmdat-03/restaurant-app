@@ -124,8 +124,8 @@ const FilterComponent = ({ fields }: Props) => {
                 onClick={() => setOpen((prev) => !prev)}
                 className={`relative w-9 h-9 flex items-center justify-center rounded-md transition
                     ${hasFilter
-                        ? "bg-blue-500 text-white"
-                        : "bg-black text-white"
+                        ? "bg-linear-to-t from-blue-600 via-blue-500 to-blue-400 text-white"
+                        : "bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white"
                     }`}
             >
                 {open ? <X size={18} /> : <Funnel size={18} />}

@@ -172,7 +172,7 @@ export default function CategoryForm({
       <CustomButton
         type="submit"
         disabled={loading}
-        className="px-5 py-2 bg-black text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-5 py-2 bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {loading
           ? "Saving..."

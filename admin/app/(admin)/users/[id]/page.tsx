@@ -59,7 +59,7 @@ export default async function AdminUserDetailPage({
     });
 
     return (
-        <div className="w-full px-6 py-6 space-y-5">
+        <div className="w-full p-3 space-y-5">
             {/* Back button */}
             <div>
                 <Link href="/users">

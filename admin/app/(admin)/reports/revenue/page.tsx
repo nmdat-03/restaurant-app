@@ -120,7 +120,7 @@ export default async function RevenueReportPage({
     ];
 
     return (
-        <div className="w-full px-6 py-6 space-y-6">
+        <div className="w-full p-3 space-y-5">
             <h1 className="text-2xl font-bold">
                 Revenue Report
             </h1>

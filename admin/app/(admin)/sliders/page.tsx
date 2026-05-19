@@ -54,7 +54,7 @@ export default async function AdminSlidersPage({
     const totalPages = Math.ceil(totalSliders / PAGE_SIZE);
 
     return (
-        <div className="w-full px-3 py-6">
+        <div className="w-full p-3">
             <Suspense
                 key={`${currentPage}-${keyword}`}
                 fallback={<div>Loading...</div>}

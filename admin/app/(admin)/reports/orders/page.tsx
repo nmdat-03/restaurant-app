@@ -151,7 +151,7 @@ export default async function OrdersReportPage({
     ];
 
     return (
-        <div className="w-full px-3 py-6 space-y-5">
+        <div className="w-full p-3 space-y-5">
             <h1 className="text-2xl font-bold">
                 Orders Report
             </h1>

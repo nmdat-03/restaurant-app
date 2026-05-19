@@ -103,11 +103,12 @@ export default async function AdminDashboardPage() {
             title: "Orders Today",
             value: ordersToday,
             gradient: "from-purple-400 to-purple-600",
+            href: "/reports/orders"
         },
     ];
 
     return (
-        <div className="w-full px-3 py-6 space-y-3">
+        <div className="w-full p-3 space-y-3">
             <h1 className="text-2xl font-semibold">Dashboard</h1>
 
             {/* Cards */}

@@ -103,7 +103,7 @@ export default async function AdminProductsPage({
   const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
   return (
-    <div className="w-full px-3 py-6">
+    <div className="w-full p-3">
       <div className="bg-white p-4 rounded-md shadow-md space-y-3">
         {/* TOP BAR */}
         <div className="flex justify-between items-center flex-wrap gap-4">
@@ -140,7 +140,7 @@ export default async function AdminProductsPage({
 
             <Link
               href="/products/create"
-              className="w-9 h-9 bg-black text-white rounded-md flex items-center justify-center"
+              className="w-9 h-9 bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white rounded-md flex items-center justify-center"
             >
               <Plus size={18} />
             </Link>

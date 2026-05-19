@@ -13,7 +13,7 @@ export default async function CreateSliderPage() {
   }
 
   return (
-    <div className="w-full px-6 py-6 space-y-5">
+    <div className="w-full p-3 space-y-5">
       <div>
         <Link href="/sliders">
           <CustomButton className="flex items-center bg-white shadow-md rounded-full px-3 py-2 text-sm">

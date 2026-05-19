@@ -9,6 +9,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Reveal from "@/components/common/Reveal";
+import Image from "next/image";
 
 export default async function HomePage() {
     const bestSellingProducts = await getBestSellingProducts(10);
@@ -31,24 +32,54 @@ export default async function HomePage() {
             <Reveal>
                 <section className="container py-16 md:py-20">
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-                            Menu Categories
-                        </h2>
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <span className="h-px w-60 bg-black/20" />
 
-                        <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
-                            Explore handcrafted dishes made with premium
-                            ingredients and unforgettable flavors.
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-green-500 via-teal-500 to-sky-500 bg-clip-text text-transparent">
+                                Menu Categories
+                            </h2>
+
+                            <span className="h-px w-60 bg-black/20" />
+                        </div>
+
+                        <p className="text-gray-700 mt-3 max-w-2xl mx-auto">
+                            Explore handcrafted dishes made with premium ingredients and unforgettable flavors.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
                         {categories.map((category) => (
                             <Link
                                 key={category.id}
-                                href={`/products/category?${category.slug}`}
-                                className="bg-white border rounded-2xl p-5 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center font-medium"
+                                href={`/products/category/${category.slug}`}
+                                className="group overflow-hidden rounded-2xl border bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                             >
-                                {category.name}
+                                <div className="relative aspect-square overflow-hidden bg-gray-100">
+                                    {category.image?.trim() ? (
+                                        <Image
+                                            src={category.image}
+                                            alt={category.name}
+                                            fill
+                                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                                        />
+                                    ) : (
+                                        <div className="flex h-full items-center justify-center text-gray-400 text-sm">
+                                            <Image
+                                                src="/icons/no-image.png"
+                                                alt="No image"
+                                                width={60}
+                                                height={60}
+                                                className="opacity-60"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="p-4 text-center">
+                                    <h3 className="font-semibold text-sm md:text-base">
+                                        {category.name}
+                                    </h3>
+                                </div>
                             </Link>
                         ))}
                     </div>
@@ -59,13 +90,18 @@ export default async function HomePage() {
             <Reveal>
                 <section className="container py-16 md:py-20">
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-                            Best Selling Dishes
-                        </h2>
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <span className="h-px w-60 bg-black/20" />
 
-                        <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
-                            Our most loved dishes chosen by food lovers every
-                            day.
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-orange-600 via-red-500 to-amber-400 bg-clip-text text-transparent">
+                                Best Selling Dishes
+                            </h2>
+
+                            <span className="h-px w-60 bg-black/20" />
+                        </div>
+
+                        <p className="text-gray-700 mt-3 max-w-2xl mx-auto">
+                            Our most loved dishes chosen by food lovers every day.
                         </p>
                     </div>
 
@@ -87,11 +123,17 @@ export default async function HomePage() {
                 <section>
                     <div className="container py-16 md:py-20">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-                                Newest Dishes
-                            </h2>
+                            <div className="flex items-center justify-center gap-4 mb-4">
+                                <span className="h-px w-60 bg-black/20" />
 
-                            <p className="text-gray-500 mt-3 max-w-2xl mx-auto">
+                                <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-blue-700 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                                    Newest Dishes
+                                </h2>
+
+                                <span className="h-px w-60 bg-black/20" />
+                            </div>
+
+                            <p className="text-gray-700 mt-3 max-w-2xl mx-auto">
                                 Freshly crafted dishes straight from our kitchen.
                             </p>
                         </div>
@@ -127,9 +169,7 @@ export default async function HomePage() {
                             </h2>
 
                             <p className="text-gray-300 max-w-2xl mx-auto mt-5 text-lg leading-relaxed">
-                                Discover handcrafted dishes made with premium
-                                ingredients and unforgettable flavors prepared
-                                by passionate chefs.
+                                Discover handcrafted dishes made with premium ingredients and unforgettable flavors prepared by passionate chefs.
                             </p>
 
                             <div className="mt-8">

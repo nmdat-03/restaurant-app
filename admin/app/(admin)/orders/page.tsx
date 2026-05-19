@@ -71,7 +71,7 @@ export default async function AdminOrdersPage({
     const totalPages = Math.ceil(totalOrders / PAGE_SIZE);
 
     return (
-        <div className="w-full px-3 py-6">
+        <div className="w-full p-3">
             <div className="bg-white p-4 rounded-md shadow-md space-y-3">
                 {/* TOP BAR */}
                 <div className="flex justify-between items-center flex-wrap gap-4">

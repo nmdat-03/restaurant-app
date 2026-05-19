@@ -125,7 +125,7 @@ export default function AdminSlidersClient({
 
                     <Link
                         href="/sliders/create"
-                        className="w-9 h-9 bg-black text-white rounded-md flex items-center justify-center"
+                        className="w-9 h-9 bg-linear-to-t from-slate-900 via-slate-800 to-slate-700 text-white rounded-md flex items-center justify-center"
                     >
                         <Plus size={18} />
                     </Link>

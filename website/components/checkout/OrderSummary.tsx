@@ -38,7 +38,7 @@ export default function OrderSummary({
                     >
                         <div className="flex items-center gap-3">
                             <Image
-                                src={item.image || "/no-image.png"}
+                                src={item.image || "/icons/no-image.png"}
                                 alt={item.name}
                                 width={60}
                                 height={60}

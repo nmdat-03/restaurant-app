@@ -47,7 +47,7 @@ function CartItem({
                 />
 
                 <Image
-                    src={image || "/no-image.png"}
+                    src={image || "/icons/no-image.png"}
                     alt={name}
                     width={80}
                     height={80}

@@ -79,7 +79,7 @@ export default function AdminUsersClient({
                                 <TableCell className="text-right">
                                     <Link
                                         href={`/users/${user.id}`}
-                                        className="px-3 py-1 text-sm border border-black rounded inline-flex gap-1 items-center"
+                                        className="px-3 py-1 text-sm bg-white border border-black rounded inline-flex gap-1 items-center"
                                     >
                                         <Eye size={16} />
                                         View
