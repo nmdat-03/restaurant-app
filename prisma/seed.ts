@@ -1,4 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import {
+  PrismaClient,
+  OrderStatus,
+  PaymentMethod,
+  PaymentStatus,
+  Role,
+} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -18,6 +24,14 @@ const imagePool = [
   {
     url: "https://res.cloudinary.com/nmd2910/image/upload/v1777780697/pf77kdzi4b5rhunahpdm.avif",
   },
+];
+
+const orderStatuses: OrderStatus[] = [
+  "PENDING",
+  "CONFIRMED",
+  "SHIPPING",
+  "COMPLETED",
+  "CANCELLED",
 ];
 
 async function main() {
@@ -49,9 +63,9 @@ async function main() {
       where: { slug: `product-${i}` },
       update: {},
       create: {
-        name: `Product ${i}`,
-        slug: `product-${i}`,
-        description: `This is description of Product ${i}`,
+        name: `Dish ${i}`,
+        slug: `dish-${i}`,
+        description: `This is description of Dish ${i}`,
         price: Math.floor(Math.random() * 90 + 10) * 1000,
         categoryId: category.id,
         images: {
@@ -62,6 +76,75 @@ async function main() {
             },
           ],
         },
+      },
+    });
+  }
+
+  // ===== USER =====
+  const user = await prisma.user.upsert({
+    where: { clerkId: "seed-user" },
+    update: {},
+    create: {
+      clerkId: "seed-user",
+      name: "Seed User",
+      email: "seed@example.com",
+      role: Role.USER,
+    },
+  });
+
+  const products = await prisma.product.findMany();
+
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
+
+  // ===== ORDERS =====
+  for (let i = 1; i <= 25; i++) {
+    const status = orderStatuses[i % orderStatuses.length];
+
+    const daysAgo = Math.floor(Math.random() * 7);
+
+    const createdAt = new Date();
+    createdAt.setDate(createdAt.getDate() - daysAgo);
+
+    const itemCount = Math.floor(Math.random() * 3) + 1;
+
+    const shuffled = [...products].sort(() => 0.5 - Math.random());
+
+    const selectedProducts = shuffled.slice(0, itemCount);
+
+    let total = 0;
+
+    const itemsData = selectedProducts.map((product) => {
+      const quantity = Math.floor(Math.random() * 3) + 1;
+
+      total += product.price * quantity;
+
+      return {
+        productId: product.id,
+        quantity,
+        price: product.price,
+      };
+    });
+
+    await prisma.order.create({
+      data: {
+        userId: user.id,
+        fullName: "Nguyen Van A",
+        phone: "0901234567",
+        address: "Ho Chi Minh City",
+        paymentMethod: PaymentMethod.COD,
+        paymentStatus:
+          status === "COMPLETED"
+            ? PaymentStatus.PAID
+            : status === "CANCELLED"
+              ? PaymentStatus.FAILED
+              : PaymentStatus.PENDING,
+        orderStatus: status,
+        total,
+        paidAt: status === "COMPLETED" ? createdAt : null,
+        deliveredAt: status === "COMPLETED" ? createdAt : null,
+        createdAt,
+        items: { create: itemsData },
       },
     });
   }

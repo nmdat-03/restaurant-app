@@ -9,7 +9,7 @@ import CustomButton from "@/components/common/CustomButton";
 import { formatPrice } from "@/lib/format";
 import clsx from "clsx";
 
-export default function ProductDetailClient({ product }: any) {
+export default function DishDetailClient({ product }: any) {
     const imgRef = useRef<HTMLDivElement | null>(null);
     const router = useRouter();
     const [quantity, setQuantity] = useState(1);

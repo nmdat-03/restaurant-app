@@ -35,7 +35,13 @@ export default async function HomePage() {
                         <div className="flex items-center justify-center gap-4 mb-4">
                             <span className="h-px w-60 bg-black/20" />
 
-                            <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-green-500 via-teal-500 to-sky-500 bg-clip-text text-transparent">
+                            <h2 className="
+                                text-4xl md:text-5xl font-black tracking-tight 
+                                bg-[linear-gradient(135deg,#22c55e,#14b8a6,#0ea5e9,#2dd4bf,#16a34a)] 
+                                bg-clip-text text-transparent 
+                                animate-gradient-lava
+                                "
+                            >
                                 Menu Categories
                             </h2>
 
@@ -93,7 +99,12 @@ export default async function HomePage() {
                         <div className="flex items-center justify-center gap-4 mb-4">
                             <span className="h-px w-60 bg-black/20" />
 
-                            <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-orange-600 via-red-500 to-amber-400 bg-clip-text text-transparent">
+                            <h2 className="
+                            text-4xl md:text-5xl font-black tracking-tight 
+                            bg-[linear-gradient(135deg,#ea580c,#ef4444,#fbbf24,#f97316,#dc2626)] 
+                            bg-clip-text text-transparent 
+                            animate-gradient-lava
+                            ">
                                 Best Selling Dishes
                             </h2>
 
@@ -126,7 +137,13 @@ export default async function HomePage() {
                             <div className="flex items-center justify-center gap-4 mb-4">
                                 <span className="h-px w-60 bg-black/20" />
 
-                                <h2 className="text-4xl md:text-5xl font-black tracking-tight bg-linear-to-r from-blue-700 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                                <h2 className="
+                                    text-4xl md:text-5xl font-black tracking-tight 
+                                    bg-[linear-gradient(135deg,#1d4ed8,#3b82f6,#6366f1,#06b6d4,#2563eb)] 
+                                    bg-clip-text text-transparent 
+                                    animate-gradient-lava
+                                    "
+                                >
                                     Newest Dishes
                                 </h2>
 

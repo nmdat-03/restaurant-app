@@ -40,16 +40,12 @@ export default async function ProductsClient({
     return (
         <div className="flex gap-6">
             <div className="hidden lg:block w-1/4">
-                <FilterSidebar
-                    categories={categories}
-                />
+                <FilterSidebar categories={categories} />
             </div>
 
             <div className="w-full lg:w-3/4 flex flex-col">
                 <div className="mb-4">
-                    <MobileFilter
-                        categories={categories}
-                    />
+                    <MobileFilter categories={categories} />
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
