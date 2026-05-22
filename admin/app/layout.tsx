@@ -12,7 +12,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Admin Restaurant",
-  description: "Admin dashboard",
+  description: "Demo Admin Restaurant",
 };
 
 export default function RootLayout({
