@@ -57,7 +57,7 @@ export default async function HomePage() {
                         {categories.map((category) => (
                             <Link
                                 key={category.id}
-                                href={`/products/category/${category.slug}`}
+                                href={`/products?category=${category.slug}`}
                                 className="group overflow-hidden rounded-2xl border bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                             >
                                 <div className="relative aspect-square overflow-hidden bg-gray-100">
