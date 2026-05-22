@@ -4,16 +4,18 @@ import { getCurrentUser } from "@/lib/auth";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const user = await getCurrentUser();
+
+  const { id } = await params;
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const order = await prisma.order.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!order || order.userId !== user.id) {
@@ -29,7 +31,7 @@ export async function PATCH(
 
   try {
     const updatedOrder = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         orderStatus: "CANCELLED",
         paymentStatus: order.paymentStatus === "PAID" ? "REFUNDED" : "FAILED",

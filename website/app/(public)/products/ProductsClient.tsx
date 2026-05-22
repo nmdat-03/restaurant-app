@@ -40,7 +40,9 @@ export default async function ProductsClient({
     return (
         <div className="flex gap-6">
             <div className="hidden lg:block w-1/4">
-                <FilterSidebar categories={categories} />
+                <Suspense fallback={null}>
+                    <FilterSidebar categories={categories} />
+                </Suspense>
             </div>
 
             <div className="w-full lg:w-3/4 flex flex-col">
@@ -53,7 +55,9 @@ export default async function ProductsClient({
                         {q ? `Results for "${q}" (${total})` : `All Dishes (${total})`}
                     </h2>
 
-                    <SortBar />
+                    <Suspense fallback={null}>
+                        <SortBar />
+                    </Suspense>
                 </div>
 
                 <Suspense
@@ -69,10 +73,12 @@ export default async function ProductsClient({
                     />
                 </Suspense>
 
-                <CustomPagination
-                    currentPage={page}
-                    totalPages={totalPages}
-                />
+                <Suspense fallback={null}>
+                    <CustomPagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                    />
+                </Suspense>
             </div>
         </div>
     );

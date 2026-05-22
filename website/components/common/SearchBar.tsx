@@ -79,7 +79,9 @@ export default function SearchBar() {
     /*      CLICK OUTSIDE              */
     /*---------------------------------*/
     useEffect(() => {
-        const handleClickOutside = (e: any) => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (!(e.target instanceof Element)) return;
+
             if (!e.target.closest(".search-box")) {
                 setOpen(false);
             }

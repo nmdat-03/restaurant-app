@@ -4,12 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate --schema=../prisma/schema.prisma && next build",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "prisma generate --schema=../prisma/schema.prisma",
     "db:generate": "prisma generate --schema=../prisma/schema.prisma",
     "db:migrate": "prisma migrate dev --schema=../prisma/schema.prisma",
     "db:seed": "prisma db seed --schema=../prisma/schema.prisma"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "prisma"
+    ]
   },
   "dependencies": {
     "@clerk/nextjs": "^7.0.6",

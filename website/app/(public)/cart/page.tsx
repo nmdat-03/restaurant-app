@@ -24,7 +24,6 @@ export default function CartPage() {
         totalPrice,
         toggleSelect,
         toggleSelectAll,
-        updateItem,
     } = useCart();
 
     const router = useRouter();

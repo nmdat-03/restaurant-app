@@ -8,10 +8,12 @@ import { addressSchema } from "@/lib/validators/address";
 /*----------------------------------------*/
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { userId } = await auth();
+
+    const { id } = await params;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -37,12 +39,8 @@ export async function PATCH(
       });
 
       const updated = await prisma.address.update({
-        where: {
-          id: params.id,
-        },
-        data: {
-          isDefault: true,
-        },
+        where: { id },
+        data: { isDefault: true },
       });
 
       return NextResponse.json(updated);
@@ -61,9 +59,7 @@ export async function PATCH(
     }
 
     const updated = await prisma.address.update({
-      where: {
-        id: params.id,
-      },
+      where: { id },
       data: result.data,
     });
 
@@ -78,10 +74,12 @@ export async function PATCH(
 /*----------------------------------------*/
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { userId } = await auth();
+
+    const { id } = await params;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -97,7 +95,7 @@ export async function DELETE(
 
     const address = await prisma.address.findFirst({
       where: {
-        id: params.id,
+        id,
         userId: user.id,
       },
     });
@@ -107,9 +105,7 @@ export async function DELETE(
     }
 
     await prisma.address.delete({
-      where: {
-        id: params.id,
-      },
+      where: { id },
     });
 
     /*----------------------------------------*/

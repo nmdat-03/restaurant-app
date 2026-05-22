@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { LogOut, Menu, Package, Search, ShoppingBag, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useCartStore } from "@/store/cart-store";
 import { useUser, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -56,7 +56,9 @@ export default function Navbar() {
 
                 {/* Search Bar */}
                 <div className="hidden md:flex w-75 lg:w-100 xl:w-125">
-                    <SearchBar />
+                    <Suspense fallback={null}>
+                        <SearchBar />
+                    </Suspense>
                 </div>
 
                 {/* Right Actions */}

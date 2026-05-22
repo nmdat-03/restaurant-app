@@ -6,7 +6,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
-import CustomButton from "../common/CustomButton";
+import Image from "next/image";
 
 export default function BannerSliderClient({
     sliders,
@@ -27,14 +27,14 @@ export default function BannerSliderClient({
                         <div className="relative h-55 md:h-80 lg:h-100">
                             {item.link ? (
                                 <Link href={item.link}>
-                                    <img
+                                    <Image
                                         src={item.image}
                                         alt={item.altText || "banner"}
                                         className="w-full h-full object-contain cursor-pointer"
                                     />
                                 </Link>
                             ) : (
-                                <img
+                                <Image
                                     src={item.image}
                                     alt={item.altText || "banner"}
                                     className="w-full h-full object-contain"
