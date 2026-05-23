@@ -36,7 +36,7 @@ export default async function HomePage() {
                             <span className="h-px w-60 bg-black/20" />
 
                             <h2 className="
-                                text-4xl md:text-5xl font-black tracking-tight 
+                                text-4xl md:text-5xl font-black tracking-tight leading-tight pb-1 
                                 bg-[linear-gradient(135deg,#22c55e,#14b8a6,#0ea5e9,#2dd4bf,#16a34a)] 
                                 bg-clip-text text-transparent 
                                 animate-gradient-lava
@@ -100,7 +100,7 @@ export default async function HomePage() {
                             <span className="h-px w-60 bg-black/20" />
 
                             <h2 className="
-                            text-4xl md:text-5xl font-black tracking-tight 
+                            text-4xl md:text-5xl font-black tracking-tight leading-tight pb-1 
                             bg-[linear-gradient(135deg,#ea580c,#ef4444,#fbbf24,#f97316,#dc2626)] 
                             bg-clip-text text-transparent 
                             animate-gradient-lava
@@ -138,7 +138,7 @@ export default async function HomePage() {
                                 <span className="h-px w-60 bg-black/20" />
 
                                 <h2 className="
-                                    text-4xl md:text-5xl font-black tracking-tight 
+                                    text-4xl md:text-5xl font-black tracking-tight leading-tight pb-1
                                     bg-[linear-gradient(135deg,#1d4ed8,#3b82f6,#6366f1,#06b6d4,#2563eb)] 
                                     bg-clip-text text-transparent 
                                     animate-gradient-lava
