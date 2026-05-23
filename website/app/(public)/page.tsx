@@ -11,7 +11,7 @@ import Link from "next/link";
 import Reveal from "@/components/common/Reveal";
 import Image from "next/image";
 
-export const revalidate = 60;
+export const revalidate = 10;
 
 export default async function HomePage() {
     const bestSellingProducts = await getBestSellingProducts(10);
