@@ -72,7 +72,7 @@ export default function Hero() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.8 }}
-                            className="text-4xl md:text-6xl font-black text-white leading-tight"
+                            className="text-5xl md:text-6xl font-black text-white leading-tight"
                         >
                             Exploring
                             <span className="block px-1 bg-linear-to-r from-red-500 via-yellow-300 to-red-500 bg-clip-text text-transparent">
