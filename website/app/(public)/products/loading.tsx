@@ -7,7 +7,34 @@ export default function Loading() {
 
                 {/* FILTER */}
                 <div className="hidden lg:block w-1/4">
-                    <Skeleton className="h-125 w-full bg-white rounded-xl" />
+                    <div className="bg-white p-4 rounded-lg shadow-md space-y-6">
+
+                        {/* Title */}
+                        <Skeleton className="h-7 w-20" />
+
+                        {/* Category section */}
+                        <div className="space-y-4">
+
+                            {/* Category label */}
+                            <Skeleton className="h-5 w-24" />
+
+                            {/* Checkbox list */}
+                            <div className="flex flex-col gap-4">
+                                {Array.from({ length: 6 }).map((_, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <Skeleton className="w-5 h-5 rounded-sm" />
+                                        <Skeleton className="h-4 w-24" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="flex gap-2">
+                            <Skeleton className="h-10 w-1/2 rounded-md" />
+                            <Skeleton className="h-10 w-1/2 rounded-md" />
+                        </div>
+                    </div>
                 </div>
 
                 {/* RIGHT */}
