@@ -120,9 +120,7 @@ export async function getBestSellingProducts(limit = 10) {
 /*----------------------------------------*/
 export async function getNewestProducts(limit = 10) {
   return prisma.product.findMany({
-    where: {
-      isActive: true,
-    },
+    where: { isActive: true },
     take: limit,
     orderBy: { createdAt: "desc" },
     include: {
