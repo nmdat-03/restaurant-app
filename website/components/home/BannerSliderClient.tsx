@@ -34,7 +34,7 @@ export default function BannerSliderClient({
                                         fill
                                         src={item.image}
                                         alt={item.altText || "banner"}
-                                        className="object-cover cursor-pointer"
+                                        className="object-contain cursor-pointer"
                                         sizes="100vw"
                                         priority={index === 0}
                                     />
@@ -44,7 +44,7 @@ export default function BannerSliderClient({
                                     fill
                                     src={item.image}
                                     alt={item.altText || "banner"}
-                                    className="object-cover"
+                                    className="object-contain"
                                     sizes="100vw"
                                     priority={index === 0}
                                 />
