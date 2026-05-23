@@ -4,7 +4,7 @@ export default function ProductDetailSkeleton() {
             {/* Top buttons */}
             <div className="flex justify-between">
                 <div className="h-9 w-24 bg-gray-200 rounded-full animate-pulse" />
-                <div className="h-9 w-60 bg-gray-200 rounded-full animate-pulse" />
+                <div className="h-9 w-40 bg-gray-200 rounded-full animate-pulse" />
             </div>
 
             <div className="bg-white rounded-2xl shadow-md p-4 space-y-6 animate-pulse">

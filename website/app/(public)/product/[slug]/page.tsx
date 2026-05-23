@@ -14,7 +14,7 @@ export default async function ProductDetail({
     if (!product) return <div>Product not found</div>;
 
     return (
-        <div className="container py-6">
+        <div className="container py-3">
             <ProductDetailClient product={product} />
         </div>
     );
