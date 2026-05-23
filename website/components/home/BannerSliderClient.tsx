@@ -22,16 +22,21 @@ export default function BannerSliderClient({
                 loop
                 className="banner-swiper rounded-lg overflow-hidden"
             >
-                {sliders.map((item) => (
+                {sliders.map((item, index) => (
                     <SwiperSlide key={item.id}>
                         <div className="relative aspect-video w-full">
                             {item.link ? (
-                                <Link href={item.link}>
+                                <Link
+                                    href={item.link}
+                                    className="block w-full h-full"
+                                >
                                     <Image
                                         fill
                                         src={item.image}
                                         alt={item.altText || "banner"}
                                         className="object-cover cursor-pointer"
+                                        sizes="100vw"
+                                        priority={index === 0}
                                     />
                                 </Link>
                             ) : (
@@ -40,6 +45,8 @@ export default function BannerSliderClient({
                                     src={item.image}
                                     alt={item.altText || "banner"}
                                     className="object-cover"
+                                    sizes="100vw"
+                                    priority={index === 0}
                                 />
                             )}
                         </div>
