@@ -24,20 +24,22 @@ export default function BannerSliderClient({
             >
                 {sliders.map((item) => (
                     <SwiperSlide key={item.id}>
-                        <div className="relative h-55 md:h-80 lg:h-100">
+                        <div className="relative aspect-video w-full">
                             {item.link ? (
                                 <Link href={item.link}>
                                     <Image
+                                        fill
                                         src={item.image}
                                         alt={item.altText || "banner"}
-                                        className="w-full h-full object-contain cursor-pointer"
+                                        className="object-cover cursor-pointer"
                                     />
                                 </Link>
                             ) : (
                                 <Image
+                                    fill
                                     src={item.image}
                                     alt={item.altText || "banner"}
-                                    className="w-full h-full object-contain"
+                                    className="object-cover"
                                 />
                             )}
                         </div>
