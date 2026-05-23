@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
     return (
-        <div className="container py-6">
+        <div className="container py-3">
             <div className="flex gap-6">
 
                 {/* FILTER */}

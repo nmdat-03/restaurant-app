@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import ProductsClient from "./ProductsClient";
 
 export default function ProductsPage({
@@ -12,10 +11,8 @@ export default function ProductsPage({
     }>;
 }) {
     return (
-        <div className="container py-6">
-            <Suspense fallback={null}>
-                <ProductsClient searchParams={searchParams} />
-            </Suspense>
+        <div className="container py-3">
+            <ProductsClient searchParams={searchParams} />
         </div>
     );
 }
