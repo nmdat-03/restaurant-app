@@ -3,7 +3,11 @@ import OrdersTable from "@/components/dashboard/OrdersTable";
 import Link from "next/link";
 import StatCard from "@/components/reports/StatCard";
 import RevenueChart from "@/components/charts/RevenueChart";
-import { getOrderStatsLast7Days, getRevenueLast7Days, getTopProducts } from "@/lib/dashboard";
+import {
+    getOrderStatsLast7Days,
+    getRevenueLast7Days,
+    getTopProducts,
+} from "@/lib/dashboard";
 import OrdersChart from "@/components/dashboard/OrdersChart";
 import TopProducts from "@/components/dashboard/TopProducts";
 
@@ -11,59 +15,50 @@ export default async function AdminDashboardPage() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const [
-        totalUsers,
-        totalProducts,
-        totalOrders,
-        revenueResult,
-        pendingOrders,
-        ordersToday,
-        recentOrders,
-        chartData,
-        orderStatsData,
-        topProducts,
-    ] = await Promise.all([
-        prisma.user.count(),
-        prisma.product.count(),
-        prisma.order.count(),
+    const totalUsers = await prisma.user.count();
 
-        prisma.order.aggregate({
-            where: {
-                orderStatus: "COMPLETED",
-                paymentStatus: "PAID",
+    const totalProducts = await prisma.product.count();
+
+    const totalOrders = await prisma.order.count();
+
+    const revenueResult = await prisma.order.aggregate({
+        where: {
+            orderStatus: "COMPLETED",
+            paymentStatus: "PAID",
+        },
+        _sum: { total: true },
+    });
+
+    const pendingOrders = await prisma.order.count({
+        where: { orderStatus: "PENDING" },
+    });
+
+    const ordersToday = await prisma.order.count({
+        where: {
+            createdAt: {
+                gte: today,
             },
-            _sum: { total: true },
-        }),
+        },
+    });
 
-        prisma.order.count({
-            where: { orderStatus: "PENDING" },
-        }),
-
-        prisma.order.count({
-            where: {
-                createdAt: {
-                    gte: today,
+    const recentOrders = await prisma.order.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        include: {
+            user: true,
+            items: {
+                include: {
+                    product: true,
                 },
             },
-        }),
+        },
+    });
 
-        prisma.order.findMany({
-            orderBy: { createdAt: "desc" },
-            take: 5,
-            include: {
-                user: true,
-                items: {
-                    include: {
-                        product: true,
-                    },
-                },
-            },
-        }),
+    const chartData = await getRevenueLast7Days();
 
-        getRevenueLast7Days(),
-        getOrderStatsLast7Days(),
-        getTopProducts(),
-    ]);
+    const orderStatsData = await getOrderStatsLast7Days();
+
+    const topProducts = await getTopProducts();
 
     const totalRevenue = revenueResult._sum.total || 0;
 
@@ -72,38 +67,38 @@ export default async function AdminDashboardPage() {
             title: "Total Users",
             value: totalUsers,
             gradient: "from-blue-400 to-blue-600",
-            href: "/users"
+            href: "/users",
         },
         {
             title: "Total Products",
             value: totalProducts,
             gradient: "from-orange-400 to-orange-600",
-            href: "/products"
+            href: "/products",
         },
         {
             title: "Total Orders",
             value: totalOrders,
             gradient: "from-pink-400 to-pink-600",
-            href: "/orders"
+            href: "/orders",
         },
         {
             title: "Total Revenue",
             value: totalRevenue,
             isMoney: true,
             gradient: "from-green-400 to-green-600",
-            href: "/reports/revenue"
+            href: "/reports/revenue",
         },
         {
             title: "Pending Orders",
             value: pendingOrders,
             gradient: "from-yellow-400 to-yellow-600",
-            href: "/orders?status=PENDING"
+            href: "/orders?status=PENDING",
         },
         {
             title: "Orders Today",
             value: ordersToday,
             gradient: "from-purple-400 to-purple-600",
-            href: "/reports/orders"
+            href: "/reports/orders",
         },
     ];
 
