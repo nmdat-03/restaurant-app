@@ -13,7 +13,6 @@ import {
 import Link from "next/link";
 import { Eye } from "lucide-react";
 import { RoleBadge } from "@/components/common/Badges";
-import AdminSearchBar from "@/components/common/AdminSearchBar";
 
 type UserWithCount = Prisma.UserGetPayload<{
     include: {

@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-    InputField,
-    TextareaField,
-} from "@/components/common/FormField";
+import { InputField } from "@/components/common/FormField";
 import UploadImages from "@/components/common/UploadImages";
 import CustomButton from "@/components/common/CustomButton";
 
@@ -115,8 +112,15 @@ export default function SliderForm({
                     images={image?.url ? [image] : []}
                     onChange={(imgs) =>
                         setValue(
-                            "image",
-                            imgs[0] || { url: "", publicId: "" },
+                            "image", imgs[0]
+                            ? {
+                                ...imgs[0],
+                                publicId: imgs[0].publicId ?? undefined,
+                            }
+                            : {
+                                url: "",
+                                publicId: undefined,
+                            },
                             { shouldValidate: true }
                         )
                     }

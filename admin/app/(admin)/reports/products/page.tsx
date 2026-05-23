@@ -75,7 +75,7 @@ export default async function ProductsReportPage({
     // ===== Charts =====
     const topSellingProducts = getTopSellingProducts(products);
 
-    const categoryChartData = getCategoryStats(products);
+    //const categoryChartData = getCategoryStats(products);
 
     const allTimeTopProducts = await getAllTimeTopProducts();
 
