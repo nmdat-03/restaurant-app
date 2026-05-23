@@ -20,11 +20,11 @@ export default function Footer() {
                 </div>
 
                 <div className="flex flex-col gap-8 md:flex-row md:gap-32 md:justify-center">
-                    {/* Shop */}
+                    {/* Restaurant */}
                     <div>
-                        <h3 className="font-semibold mb-3">Shop</h3>
+                        <h3 className="font-semibold mb-3">Restaurant</h3>
                         <ul className="space-y-2 text-gray-300">
-                            <li><Link href="/products">Product</Link></li>
+                            <li><Link href="/products">Menu</Link></li>
                             <li><Link href="/contact">Contact</Link></li>
                         </ul>
                     </div>
