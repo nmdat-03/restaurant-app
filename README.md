@@ -6,7 +6,11 @@ This project consists of two applications:
 
 - Website → Customer-facing restaurant website
 
+Demo: https://demo-restaurant-app.vercel.app/
+
 - Admin Dashboard → Restaurant management system
+
+Demo: https://demo-admin-restaurant-app.vercel.app/
 
 ## 📱 Responsive Design
 
