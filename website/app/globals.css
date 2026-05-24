@@ -67,6 +67,17 @@ img {
     --swiper-theme-color: white;
 }
 
+.banner-swiper .swiper-slide {
+    opacity: 0.45;
+    transform: scale(0.85);
+    transition: all 0.3s ease;
+}
+
+.banner-swiper .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import clsx from "clsx";
+import { motion } from "framer-motion";
 import { formatPrice } from "@/lib/format";
 
 type CartItemType = {
@@ -32,10 +33,18 @@ function CartItem({
     onToggle,
     loading = false,
 }: Props) {
+    
     const { id, name, price, image, quantity, selected } = item;
 
     return (
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between border p-4 rounded-xl gap-4">
+        <motion.div
+            layout
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -150, scale: 0.95 }}
+            transition={{ duration: 0.25 }}
+            className="flex flex-col md:flex-row md:items-center md:justify-between border p-4 rounded-xl gap-4"
+        >
             {/* LEFT */}
             <div className="flex items-center gap-3">
                 <input
@@ -89,7 +98,7 @@ function CartItem({
                         disabled={quantity === 1}
                         className={clsx(
                             "w-8 h-8 flex items-center justify-center bg-gray-100 rounded-md",
-                            (quantity === 1)
+                            quantity === 1
                                 ? "opacity-30 cursor-not-allowed"
                                 : "hover:bg-gray-200"
                         )}
@@ -115,7 +124,7 @@ function CartItem({
                     </button>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

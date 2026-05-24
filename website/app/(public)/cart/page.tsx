@@ -125,7 +125,7 @@ export default function CartPage() {
     /* ---------------- EMPTY ---------------- */
     if (items.length === 0) {
         return (
-            <div className="container py-5">
+            <div className="container py-3">
                 <div className="bg-white rounded-2xl shadow-md p-4 space-y-6">
                     <h1 className="text-2xl font-bold">Your Cart</h1>
                     <p className="flex justify-center italic text-gray-400">
@@ -138,7 +138,7 @@ export default function CartPage() {
 
     /* ---------------- UI ---------------- */
     return (
-        <div className="container py-5">
+        <div className="container py-3">
             <div className="bg-white rounded-2xl shadow-sm p-4 space-y-6">
                 <h1 className="text-2xl font-bold">Your Cart</h1>
 
@@ -154,18 +154,20 @@ export default function CartPage() {
                 </div>
 
                 {/* LIST */}
-                <div className="space-y-4">
-                    {items.map((item) => (
-                        <CartItem
-                            key={item.id}
-                            item={item}
-                            onIncrease={handleIncrease}
-                            onDecrease={handleDecrease}
-                            onRemove={handleRemove}
-                            onToggle={toggleSelect}
-                            loading={!!loadingIds[item.id]}
-                        />
-                    ))}
+                <div className="space-y-4 overflow-hidden">
+                    <AnimatePresence mode="popLayout">
+                        {items.map((item) => (
+                            <CartItem
+                                key={item.id}
+                                item={item}
+                                onIncrease={handleIncrease}
+                                onDecrease={handleDecrease}
+                                onRemove={handleRemove}
+                                onToggle={toggleSelect}
+                                loading={!!loadingIds[item.id]}
+                            />
+                        ))}
+                    </AnimatePresence>
                 </div>
 
                 {/* TOTAL */}
