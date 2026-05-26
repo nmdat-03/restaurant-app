@@ -41,6 +41,8 @@ export async function POST(req: NextRequest) {
 
     const date = new Date();
 
+    const expireDate = new Date(date.getTime() + 15 * 60 * 1000);
+
     const ipAddr =
       req.headers.get("x-forwarded-for")?.split(",")[0] ||
       req.headers.get("x-real-ip") ||
@@ -59,6 +61,7 @@ export async function POST(req: NextRequest) {
       vnp_ReturnUrl: returnUrl,
       vnp_IpAddr: ipAddr,
       vnp_CreateDate: formatDate(date),
+      vnp_ExpireDate: formatDate(expireDate),
     };
 
     const sortedParams = sortObject(vnp_Params);

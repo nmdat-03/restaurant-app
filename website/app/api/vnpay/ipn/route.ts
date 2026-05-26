@@ -55,6 +55,7 @@ export async function GET(req: NextRequest) {
 
     const order = await prisma.order.findUnique({
       where: { id: orderId },
+      include: { items: true },
     });
 
     if (!order) {
@@ -71,6 +72,13 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    if (order.orderStatus !== "PENDING") {
+      return NextResponse.json({
+        RspCode: "02",
+        Message: "Invalid order status",
+      });
+    }
+
     if (amount !== order.total) {
       return NextResponse.json({
         RspCode: "04",
@@ -79,13 +87,22 @@ export async function GET(req: NextRequest) {
     }
 
     if (responseCode === "00") {
-      await prisma.order.update({
-        where: { id: orderId },
-        data: {
-          paymentStatus: "PAID",
-          orderStatus: "CONFIRMED",
-          paidAt: new Date(),
-        },
+      await prisma.$transaction(async (tx) => {
+        await tx.order.update({
+          where: { id: orderId },
+          data: {
+            paymentStatus: "PAID",
+            orderStatus: "CONFIRMED",
+            paidAt: new Date(),
+          },
+        });
+
+        await tx.cartItem.deleteMany({
+          where: {
+            cart: { userId: order.userId },
+            productId: { in: order.items.map((i) => i.productId) },
+          },
+        });
       });
 
       console.log("IPN PAYMENT SUCCESS:", orderId);
@@ -94,21 +111,19 @@ export async function GET(req: NextRequest) {
         RspCode: "00",
         Message: "Confirm Success",
       });
-    } else {
-      await prisma.order.update({
-        where: { id: orderId },
-        data: {
-          paymentStatus: "FAILED",
-        },
-      });
-
-      console.log("IPN PAYMENT FAILED:", orderId);
-
-      return NextResponse.json({
-        RspCode: "00",
-        Message: "Confirm Success",
-      });
     }
+
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { paymentStatus: "FAILED" },
+    });
+
+    console.log("IPN PAYMENT FAILED:", orderId);
+
+    return NextResponse.json({
+      RspCode: "00",
+      Message: "Confirm Success",
+    });
   } catch (error) {
     console.error("IPN ERROR:", error);
 

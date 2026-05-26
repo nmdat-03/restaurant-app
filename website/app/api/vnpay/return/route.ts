@@ -35,9 +35,14 @@ export async function GET(req: NextRequest) {
       encode: false,
     });
 
-    const hmac = crypto.createHmac("sha512", process.env.VNP_HASH_SECRET!);
+    const hmac = crypto.createHmac(
+      "sha512",
+      process.env.VNP_HASH_SECRET!,
+    );
 
-    const signed = hmac.update(Buffer.from(signData, "utf-8")).digest("hex");
+    const signed = hmac
+      .update(Buffer.from(signData, "utf-8"))
+      .digest("hex");
 
     if (secureHash !== signed) {
       return NextResponse.redirect(
@@ -47,11 +52,9 @@ export async function GET(req: NextRequest) {
 
     const orderId = params["vnp_TxnRef"];
     const responseCode = params["vnp_ResponseCode"];
-    const amount = Number(params["vnp_Amount"]) / 100;
 
     const order = await prisma.order.findUnique({
       where: { id: orderId },
-      include: { items: true },
     });
 
     if (!order) {
@@ -60,52 +63,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    let isSuccess = false;
-
-    if (order.paymentStatus !== "PAID") {
-      if (amount !== order.total) {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: { paymentStatus: "FAILED" },
-        });
-
-        return NextResponse.redirect(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/order/failed?orderId=${orderId}&code=invalid_amount`,
-        );
-      }
-
-      if (responseCode === "00") {
-        await prisma.$transaction(async (tx) => {
-          await tx.order.update({
-            where: { id: orderId },
-            data: {
-              paymentStatus: "PAID",
-              paidAt: new Date(),
-            },
-          });
-
-          await tx.cartItem.deleteMany({
-            where: {
-              cart: { userId: order.userId },
-              productId: {
-                in: order.items.map((i) => i.productId),
-              },
-            },
-          });
-        });
-
-        isSuccess = true;
-      } else {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: {
-            paymentStatus: "FAILED",
-          },
-        });
-      }
-    } else {
-      isSuccess = true;
-    }
+    const isSuccess =
+      responseCode === "00" &&
+      order.paymentStatus === "PAID";
 
     if (isSuccess) {
       return NextResponse.redirect(
