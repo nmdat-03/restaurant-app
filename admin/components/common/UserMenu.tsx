@@ -81,9 +81,7 @@ export default function UserMenu() {
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
                                         transition={{ duration: 0.15 }}
-                                        style={{
-                                            top: hoveredIndex * 36 + 4,
-                                        }}
+                                        style={{ top: hoveredIndex * 36 + 4 }}
                                     />
                                 )}
                             </AnimatePresence>

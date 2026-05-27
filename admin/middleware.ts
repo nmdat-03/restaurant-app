@@ -8,6 +8,7 @@ const isAdminRoute = createRouteMatcher([
   "/orders(.*)",
   "/categories(.*)",
   "/sliders(.*)",
+  "/profile(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
