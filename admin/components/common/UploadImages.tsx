@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { X } from "lucide-react";
 import { useCloudinaryCleanup } from "@/hooks/useCloudinaryCleanup";
+import { toast } from "sonner";
 
 type ImageType = {
     url: string;
@@ -54,7 +55,10 @@ export default function UploadImages({
         }
 
         if (multiple) {
-            if (images.length >= max) return;
+            if (images.length >= max) {
+                toast.error(`Maximum ${max} images allowed`);
+                return;
+            }
             onChange([...images, newImage]);
         } else {
             onChange([newImage]);
@@ -64,25 +68,35 @@ export default function UploadImages({
     const handleRemove = async (index: number) => {
         const img = images[index];
 
-        if (!img.persisted && img.publicId) {
-            await fetch("/api/cloudinary/delete", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    publicId: img.publicId,
-                }),
-            });
+        try {
+            if (!img.persisted && img.publicId) {
+                const res = await fetch("/api/cloudinary/delete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        publicId: img.publicId,
+                    }),
+                });
 
-            if (img.publicId) {
+                if (!res.ok) {
+                    const error = await res.json();
+                    toast.error(error.message || "Failed to delete image");
+                    return;
+                }
+
                 remove(img.publicId);
             }
+
+            const newImages = images.filter((_, i) => i !== index);
+
+            onChange(newImages);
+
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to delete image");
         }
-
-        const newImages = images.filter((_, i) => i !== index);
-
-        onChange(newImages);
     };
 
     return (
@@ -95,17 +109,12 @@ export default function UploadImages({
                 onSuccess={handleSuccess}
                 onError={() => {
                     setUploading(false);
-                    alert("Upload failed");
+                    toast.error("Upload failed");
                 }}
                 options={{
                     maxFiles: max,
                     resourceType: "image",
-                    clientAllowedFormats: [
-                        "jpg",
-                        "jpeg",
-                        "png",
-                        "webp",
-                    ],
+                    clientAllowedFormats: ["jpg", "jpeg", "png", "webp"],
                     maxFileSize: 2000000,
                 }}
             >

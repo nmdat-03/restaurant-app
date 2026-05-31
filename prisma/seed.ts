@@ -49,6 +49,13 @@ const dessertImages = [
   "https://res.cloudinary.com/nmd2910/image/upload/v1779847246/amts10fjuq8fxecs4irp.jpg",
 ];
 
+const sliderImages = [
+  "https://res.cloudinary.com/nmd2910/image/upload/v1779588406/jd7uk9andrg6pok9mm1i.png",
+  "https://res.cloudinary.com/nmd2910/image/upload/v1779588364/ixuhtdjsswebnqdzjpmd.png",
+  "https://res.cloudinary.com/nmd2910/image/upload/v1779590530/b3ff1eazcvmf1sf6oq0m.jpg",
+  "https://res.cloudinary.com/nmd2910/image/upload/v1779588324/b81lqm3h66yz6y5n4szn.png",
+];
+
 // Drinks
 const drinkImages = [
   "https://res.cloudinary.com/nmd2910/image/upload/v1779847246/xjpovxzzfvizmgryjnun.jpg",
@@ -111,6 +118,8 @@ async function main() {
 
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
+
+  await prisma.slider.deleteMany();
 
   await prisma.category.deleteMany();
 
@@ -327,6 +336,19 @@ async function main() {
         deliveredAt: status === "COMPLETED" ? createdAt : null,
         createdAt,
         items: { create: itemsData },
+      },
+    });
+  }
+
+  // ===== SLIDERS =====
+
+  for (const [index, image] of sliderImages.entries()) {
+    await prisma.slider.create({
+      data: {
+        image,
+        altText: `Slider ${index + 1}`,
+        sortOrder: index,
+        isActive: true,
       },
     });
   }

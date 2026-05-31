@@ -14,6 +14,7 @@ import {
     SliderFormValues,
     SliderSubmitValues,
 } from "@/lib/validators/slider";
+import { toast } from "sonner";
 
 export default function SliderForm({
     slider,
@@ -52,7 +53,8 @@ export default function SliderForm({
         setLoading(true);
 
         try {
-            const parsed: SliderSubmitValues = sliderSchema.parse(data);
+            const parsed: SliderSubmitValues =
+                sliderSchema.parse(data);
 
             const payload = {
                 image: {
@@ -79,17 +81,25 @@ export default function SliderForm({
             });
 
             if (!res.ok) {
-                alert("Save failed");
-                setLoading(false);
+                const error = await res.json();
+                toast.error(error.message || "Save failed");
                 return;
             }
 
             clearImages?.();
 
+            toast.success(
+                isEdit
+                    ? "Slider updated successfully"
+                    : "Slider created successfully"
+            );
+
             router.push("/sliders");
+            router.refresh();
         } catch (error) {
-            console.log(error)
-            alert("Something went wrong");
+            console.error(error);
+            toast.error("Something went wrong");
+        } finally {
             setLoading(false);
         }
     };

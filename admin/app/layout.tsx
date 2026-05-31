@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${poppins.variable} min-h-screen antialiased`}>
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

@@ -19,6 +19,7 @@ import {
   CategoryFormValues,
   CategorySubmitValues,
 } from "@/lib/validators/category";
+import { toast } from "sonner";
 
 export default function CategoryForm({
   categories,
@@ -62,9 +63,8 @@ export default function CategoryForm({
 
   const image = watch("image");
 
-  const onSubmit = async (
-    data: CategoryFormValues
-  ) => {
+  const onSubmit = async (data: CategoryFormValues) => {
+
     setLoading(true);
 
     try {
@@ -93,17 +93,23 @@ export default function CategoryForm({
 
       if (!res.ok) {
         const data = await res.json();
-        alert(data.message || "Save failed");
+        toast.error(data.message || "Save failed");
         setLoading(false);
 
         return;
       }
 
-      router.push("/categories");
+      toast.success(
+        isEdit
+          ? "Category updated successfully"
+          : "Category created successfully"
+      );
 
+      router.push("/categories");
       router.refresh();
+
     } catch {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
       setLoading(false);
     }
   };

@@ -9,6 +9,7 @@ import OrderSummary from "@/components/checkout/OrderSummary";
 import PaymentMethod from "@/components/checkout/PaymentMethod";
 import CustomButton from "@/components/common/CustomButton";
 import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
 
 type Address = {
     id: string;
@@ -39,12 +40,12 @@ export default function CheckoutClient({ initialAddresses }: Props) {
         if (loading) return;
 
         if (!selectedAddress) {
-            alert("Please select an address");
+            toast.warning("Please select an address");
             return;
         }
 
         if (selectedItems.length === 0) {
-            alert("No items selected");
+            toast.warning("No items selected");
             return;
         }
 
@@ -69,15 +70,26 @@ export default function CheckoutClient({ initialAddresses }: Props) {
             } else {
                 const res = await fetch("/api/vnpay/create-payment", {
                     method: "POST",
-                    body: JSON.stringify({ orderId: order.id }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        orderId: order.id,
+                    }),
                 });
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    toast.error(error.message || "Failed to create payment");
+                    return;
+                }
 
                 const data = await res.json();
                 window.location.href = data.url;
             }
         } catch (error) {
             console.error(error);
-            alert("Something went wrong");
+            toast.error("Something went wrong");
         } finally {
             setLoading(false);
         }

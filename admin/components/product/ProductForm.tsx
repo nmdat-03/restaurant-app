@@ -11,6 +11,7 @@ import {
     ProductFormValues,
     productSchema,
 } from "../../lib/validators/product";
+import { toast } from "sonner";
 
 export default function ProductForm({
     categories,
@@ -87,23 +88,31 @@ export default function ProductForm({
             });
 
             if (!res.ok) {
-                alert("Save failed");
-                setLoading(false);
+                const error = await res.json();
+
+                toast.error(
+                    error.message || "Save failed"
+                );
+
                 return;
             }
 
             cleanupRef.current?.();
 
-            setLoading(false);
+            toast.success(
+                isEdit
+                    ? "Product updated successfully"
+                    : "Product created successfully"
+            );
 
             router.push("/products");
             router.refresh();
         } catch {
-            alert("Something went wrong");
+            toast.error("Something went wrong");
+        } finally {
             setLoading(false);
         }
     };
-
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}

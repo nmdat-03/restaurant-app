@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import CartSync from "@/components/cart/CartSync";
 import FlyProvider from "@/components/providers/FlyProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
             <CartSync />
             <main className="flex-1">
               {children}
+              <Toaster />
             </main>
           </FlyProvider>
         </body>

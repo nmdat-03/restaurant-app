@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addressSchema, AddressInput } from "@/lib/validators/address";
 import { useEffect } from "react";
 import CustomButton from "../common/CustomButton";
+import { toast } from "sonner";
 
 type Address = {
     id: string;
@@ -57,12 +58,14 @@ export default function AddressForm({ onSuccess, onCancel, initialData }: Props)
                 });
 
                 if (!res.ok) {
-                    alert("Failed to update address");
+                    toast.error("Failed to update address");
                     return;
                 }
 
                 const updated = await res.json();
+                toast.success("Address updated successfully");
                 onSuccess(updated);
+
             } else {
                 const res = await fetch("/api/addresses", {
                     method: "POST",
@@ -73,18 +76,19 @@ export default function AddressForm({ onSuccess, onCancel, initialData }: Props)
                 });
 
                 if (!res.ok) {
-                    alert("Failed to create address");
+                    toast.error("Failed to create address");
                     return;
                 }
 
                 const newAddress = await res.json();
+                toast.success("Address created successfully");
                 onSuccess(newAddress);
             }
 
             reset();
         } catch (err) {
             console.error(err);
-            alert("Something went wrong");
+            toast.error("Something went wrong");
         }
     };
 
